@@ -4,15 +4,14 @@ export class DashboardPage extends BasePage {
 
     constructor(page){
         super(page);
-        this.pagebutton="//button[text()='Open Menu']";
+        this.pageButton="//button[text()='Open Menu']";
         this.logOut="//*[@id='logout_sidebar_link']"
     }
-      
 
-    async loginToAplication(){
-        await this.page.click(this.pagebutton);
+
+    async loginToApplication(){
+        await this.page.click(this.pageButton);
         await this.page.click(this.logOut);
-
     }
 
 }

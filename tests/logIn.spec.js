@@ -13,8 +13,7 @@ test('Сheck if the user is blocked', async ({ page }) => {
  const loginPage = new LoginPage(page);
   await loginPage.navigateTo('https://www.saucedemo.com/v1/');
   await loginPage.login('locked_out_user', 'secret_sauce');
- await expect(page.getByText('Epic sadface:')).toBeVisible();
-
+  await expect(page.getByText('Epic sadface:')).toBeVisible();
 });
 
 test.only('logout from app', async({page}) => {
@@ -22,5 +21,5 @@ test.only('logout from app', async({page}) => {
   await loginPage.navigateTo('https://www.saucedemo.com/v1/');
   await loginPage.login('standard_user', 'secret_sauce');
   const dashboardPage= new DashboardPage(page);
-  await dashboardPage.loginToAplication()
+  await dashboardPage.loginToApplication()
 } )

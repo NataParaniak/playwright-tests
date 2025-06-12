@@ -8,12 +8,12 @@ export class BasePage {
   }
 
   async click(selector) {
-    await this.page.waitForSelector(selector);
+    // await this.page.waitForSelector(selector);
     await this.page.click(selector);
   }
 
   async type(selector, text) {
-    await this.page.waitForSelector(selector);
+    // await this.page.waitForSelector(selector);
     await this.page.fill(selector, text);
   }
 }
