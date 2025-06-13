@@ -6,7 +6,7 @@ let loginPage;
 
 test.beforeEach(async ({ page }) => {
   loginPage = new LoginPage(page);
-  await loginPage.navigateTo('https://www.saucedemo.com/v1/');
+  await loginPage.navigateTo('/');
 });
 
 test('User can log in with valid credentials', async ({ page }) => {
