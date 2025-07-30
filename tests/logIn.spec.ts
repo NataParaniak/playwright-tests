@@ -1,12 +1,13 @@
-import { test, expect, Page } from '@playwright/test';
+import { test, expect} from '@playwright/test';
 import { LoginPage } from '../pages/loginPage';
-import { DashboardPage } from '../pages/dashboardPage';
+import { InventoryPage } from '../pages/inventoryPage';
 
 let loginPage: LoginPage;
+let inventoryPage: InventoryPage;
 
 test.beforeEach(async ({ page }) => {
   loginPage = new LoginPage(page);
-  await loginPage.navigateTo('/');
+  await loginPage.navigate();
 });
 
 test('User can log in with valid credentials', async ({ page }) => {
@@ -25,6 +26,6 @@ test('Check text visibility on login page', async () => {
 
 test('Logout from application', async ({ page }) => {
   await loginPage.login('standard_user', 'secret_sauce');
-  const dashboardPage = new DashboardPage(page);
-  await dashboardPage.logOutToApplication();
+  inventoryPage = new InventoryPage(page);
+  await inventoryPage.logOutToApplication();
 });
