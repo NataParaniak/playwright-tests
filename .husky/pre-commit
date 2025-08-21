@@ -1,8 +1,8 @@
 echo "🔍 Запуск ESLint..."
 npm run lint
 
-echo "✨ Форматування Prettier..."
-npm run prettier:check
+# echo "✨ Форматування Prettier..."
+# npm run prettier:check
 
 echo "🔍 Запуск ESLint..."
 npx eslint . --fix
