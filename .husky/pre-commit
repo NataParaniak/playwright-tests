@@ -3,8 +3,7 @@ npm run lint
 
 echo "✨ Форматування Prettier..."
 npm run prettier:check
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
+
 echo "🔍 Запуск ESLint..."
 npx eslint . --fix
 
