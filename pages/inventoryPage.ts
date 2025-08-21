@@ -1,7 +1,7 @@
 import { Page, Locator, expect } from '@playwright/test';
-import { BasePage } from './basePage';
+import BasePage from './basePage';
 
-export class InventoryPage extends BasePage {
+export default class InventoryPage extends BasePage {
     private url = '/inventory.html';
 
     private pagebutton: string;

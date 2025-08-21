@@ -1,7 +1,7 @@
 import { Page, expect } from '@playwright/test';
-import { BasePage } from './basePage';
+import BasePage from './basePage';
 
-export class LoginPage extends BasePage {
+export default class LoginPage extends BasePage {
     private url = '/';
 
     private usernameInput: string;

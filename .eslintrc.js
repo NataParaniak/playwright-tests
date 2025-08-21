@@ -3,10 +3,12 @@ module.exports = {
     parser: '@typescript-eslint/parser',
     plugins: ['@typescript-eslint', 'import'],
     extends: [
+        'airbnb-base',
         'eslint:recommended',
         'plugin:@typescript-eslint/recommended',
         'plugin:import/recommended',
         'plugin:import/typescript',
+        'prettier',
     ],
     settings: {
         'import/resolver': {
