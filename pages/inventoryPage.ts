@@ -8,7 +8,7 @@ export default class InventoryPage extends BasePage {
 
     private logOut: string;
 
-    private cartImage: string;
+    private cartImage: Locator;
 
     private addToCartButton: string;
 
@@ -22,7 +22,7 @@ export default class InventoryPage extends BasePage {
         super(page);
         this.pagebutton = "//button[text()='Open Menu']";
         this.logOut = "//*[@id='logout_sidebar_link']";
-        this.cartImage = '#shopping_cart_container';
+        this.cartImage = page.locator('#shopping_cart_container');
         this.addToCartButton = "//button[text()='ADD TO CART']";
         this.itemCards = page.locator('.inventory_item');
         this.nameProduct = page.locator('.inventory_item_name').first();
@@ -33,19 +33,23 @@ export default class InventoryPage extends BasePage {
         await super.navigate(this.url);
     }
 
+    async assertOnPage() {
+        await expect(this.page).toHaveURL(/inventory/);
+    }
+
     async logOutToApplication(): Promise<void> {
         await this.page.click(this.pagebutton);
         await this.page.click(this.logOut);
     }
 
     async clickAddButtonFirst(): Promise<void> {
-        await this.firstButtonAddToCart.waitFor({ state: 'visible' });
+        // await this.firstButtonAddToCart.waitFor({ state: 'visible' });
         await this.firstButtonAddToCart.click();
     }
 
-    async isCartVisible(): Promise<boolean> {
-        return this.page.locator(this.cartImage).isVisible();
-    }
+    // async isCartVisible(): Promise<boolean> {
+    //     return this.page.locator(this.cartImage).isVisible();
+    // }
 
     async verifyNumberOfItems(expectCount: number): Promise<void> {
         await expect(this.itemCards).toHaveCount(expectCount);
@@ -59,5 +63,9 @@ export default class InventoryPage extends BasePage {
         const nameProductVariable = this.page.locator('.inventory_item_name').first();
         await nameProductVariable.waitFor({ state: 'visible' });
         await nameProductVariable.click();
+    }
+
+    async goToCart(): Promise<void> {
+        await this.cartImage.click();
     }
 }

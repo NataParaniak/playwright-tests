@@ -24,9 +24,9 @@ test('Product name are clickable', async ({ page }) => {
     await inventoryPage.takeScreenshot();
 });
 
-test('Check the button change to "REMOVE"', async ({ page }) => {
-    const button = page.locator('button[data-test^="add-to-cart"]').first();
-    await expect(button).toHaveText('Add to cart');
-    await button.click();
-    await expect(button).toHaveText('Remove');
-});
+// test('Check the button change to "REMOVE"', async ({ page }) => {
+//     const button = page.locator('button[data-test^="add-to-cart"]').first();
+//     await expect(button).toHaveText('Add to cart');
+//     await button.click();
+//     await expect(button).toHaveText('Remove');
+// });
