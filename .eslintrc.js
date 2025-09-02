@@ -28,6 +28,7 @@ module.exports = {
         ],
         'import/no-extraneous-dependencies': 'off', // можна також через overrides
         'no-return-await': 'warn',
+        'no-console': 'off',
     },
     overrides: [
         {

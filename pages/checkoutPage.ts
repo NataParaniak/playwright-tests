@@ -1,7 +1,7 @@
 import { Page } from '@playwright/test';
 import BasePage from './basePage';
 
-export default class checkoutPage extends BasePage {
+export default class CheckoutPage extends BasePage {
     private firstNameInput: string;
 
     private lastNameInput: string;

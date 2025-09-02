@@ -34,7 +34,9 @@ export default class InventoryPage extends BasePage {
     }
 
     async assertOnPage() {
-        await expect(this.page).toHaveURL(/inventory/);
+        await expect(this.page, 'Очікував, що користувач буде на сторінці inventory').toHaveURL(
+            /inventory/,
+        );
     }
 
     async logOutToApplication(): Promise<void> {

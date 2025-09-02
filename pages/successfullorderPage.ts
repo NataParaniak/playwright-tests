@@ -1,7 +1,7 @@
 import { Page, Locator, expect } from '@playwright/test';
 import BasePage from './basePage';
 
-export default class successfullorderPage extends BasePage {
+export default class SuccessfullorderPage extends BasePage {
     public successfullMessage: Locator;
 
     constructor(page: Page) {
@@ -10,6 +10,9 @@ export default class successfullorderPage extends BasePage {
     }
 
     async successfullMessageVisible() {
-        await expect(this.successfullMessage).toContainText('Thank you for your order!');
+        await expect(
+            this.successfullMessage,
+            'Очікував повідомлення про успішне замовлення',
+        ).toContainText('Thank you for your order!');
     }
 }
