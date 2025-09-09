@@ -1,5 +1,5 @@
 import { Page, Locator } from '@playwright/test';
-import BasePage from './basePage';
+import BasePage from './BasePage';
 
 export default class CheckoutoverviewPage extends BasePage {
     private finishButton: Locator;
@@ -9,7 +9,7 @@ export default class CheckoutoverviewPage extends BasePage {
         this.finishButton = page.locator('.btn_action.cart_button');
     }
 
-    async finishClick(): Promise<void> {
+    async clickFinishButton(): Promise<void> {
         await this.finishButton.click();
     }
 }

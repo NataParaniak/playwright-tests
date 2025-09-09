@@ -10,12 +10,4 @@ export default class BasePage {
     async navigate(url: string): Promise<void> {
         await this.page.goto(url);
     }
-
-    async click(selector: string): Promise<void> {
-        await this.page.click(selector);
-    }
-
-    async type(selector: string, text: string): Promise<void> {
-        await this.page.fill(selector, text);
-    }
 }

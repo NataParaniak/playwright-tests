@@ -1,5 +1,5 @@
 import { Page, Locator, expect } from '@playwright/test';
-import BasePage from './basePage';
+import BasePage from './BasePage';
 
 export default class InventoryPage extends BasePage {
     private url = '/inventory.html';
@@ -14,9 +14,11 @@ export default class InventoryPage extends BasePage {
 
     private itemCards: Locator;
 
-    private nameProduct: Locator;
-
     private firstButtonAddToCart: Locator;
+
+    private sortDropdown: Locator;
+
+    private itemPrices: Locator;
 
     constructor(page: Page) {
         super(page);
@@ -25,8 +27,9 @@ export default class InventoryPage extends BasePage {
         this.cartImage = page.locator('#shopping_cart_container');
         this.addToCartButton = "//button[text()='ADD TO CART']";
         this.itemCards = page.locator('.inventory_item');
-        this.nameProduct = page.locator('.inventory_item_name').first();
         this.firstButtonAddToCart = page.locator('[data-test^="add-to-cart"]').first();
+        this.sortDropdown = page.locator('.product_sort_container');
+        this.itemPrices = page.locator('.inventory_item_price');
     }
 
     async navigate() {
@@ -34,7 +37,7 @@ export default class InventoryPage extends BasePage {
     }
 
     async assertOnPage() {
-        await expect(this.page, 'Очікував, що користувач буде на сторінці inventory').toHaveURL(
+        await expect(this.page, 'Expected the user to be on the inventory page').toHaveURL(
             /inventory/,
         );
     }
@@ -45,29 +48,35 @@ export default class InventoryPage extends BasePage {
     }
 
     async clickAddButtonFirst(): Promise<void> {
-        // await this.firstButtonAddToCart.waitFor({ state: 'visible' });
         await this.firstButtonAddToCart.click();
     }
 
-    // async isCartVisible(): Promise<boolean> {
-    //     return this.page.locator(this.cartImage).isVisible();
-    // }
-
     async verifyNumberOfItems(expectCount: number): Promise<void> {
-        await expect(this.itemCards).toHaveCount(expectCount);
+        await expect(
+            this.itemCards,
+            `Expected ${expectCount} items, but found a different number`,
+        ).toHaveCount(expectCount);
     }
 
-    async takeScreenshot(filename = 'inventory.png'): Promise<void> {
-        await this.page.screenshot({ path: filename });
-    }
+    //     async clickProductByName(productName: keyof typeof products): Promise<void> {
+    //         const productId = products[productName]
 
-    async nameProductClickable(): Promise<void> {
-        const nameProductVariable = this.page.locator('.inventory_item_name').first();
-        await nameProductVariable.waitFor({ state: 'visible' });
-        await nameProductVariable.click();
-    }
+    // const productSelector = `a[href*="inventory-item.html?id=${productId}"]`;
+    // await this.page.locator(productSelector).waitFor({ state: 'visible', timeout: 5000 });
+    //       await this.page.click(productSelector);
+    // await expect(this.page).toHaveURL(new RegExp(`inventory-item.html\\?id=${productId}$`));
+    //     }
 
     async goToCart(): Promise<void> {
         await this.cartImage.click();
+    }
+
+    async selectSorting() {
+        await this.sortDropdown.selectOption('lohi');
+    }
+
+    async verifyPrice() {
+        const prices = await this.itemPrices.allTextContents();
+        console.log(prices);
     }
 }
