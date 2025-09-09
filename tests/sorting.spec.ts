@@ -14,6 +14,7 @@ test.beforeEach(async ({ page }) => {
     await inventoryPage.assertOnPage();
 });
 
-test('User can check for cart image ', async () => {
-    await inventoryPage.clickAddButtonFirst();
+test('The user has the ability to sort ', async () => {
+    await inventoryPage.selectSorting();
+    await inventoryPage.verifyPrice();
 });

@@ -1,23 +1,23 @@
-import { Page, expect } from '@playwright/test';
-import BasePage from './basePage';
+import { Page, expect, Locator } from '@playwright/test';
+import BasePage from './BasePage';
 
 export default class LoginPage extends BasePage {
     private url = '/';
 
-    private usernameInput: string;
+    private usernameInput: Locator;
 
-    private passwordInput: string;
+    private passwordInput: Locator;
 
-    private loginButton: string;
+    private loginButton: Locator;
 
-    private textHeader: string;
+    private textHeader: Locator;
 
     constructor(page: Page) {
         super(page);
-        this.usernameInput = '#user-name';
-        this.passwordInput = '#password';
-        this.loginButton = '#login-button';
-        this.textHeader = "//h4[text()='Accepted usernames are:']";
+        this.usernameInput = page.locator('#user-name');
+        this.passwordInput = page.locator('#password');
+        this.loginButton = page.locator('#login-button');
+        this.textHeader = page.locator("//h4[text()='Accepted usernames are:']");
     }
 
     async navigate() {
@@ -25,12 +25,16 @@ export default class LoginPage extends BasePage {
     }
 
     async login(username: string, password: string): Promise<void> {
-        await this.type(this.usernameInput, username);
-        await this.type(this.passwordInput, password);
-        await this.click(this.loginButton);
+        await this.usernameInput.fill(username);
+        await this.passwordInput.fill(password);
+        await this.loginButton.click();
     }
 
-    async verifyTextHeader(): Promise<void> {
-        await expect(this.page.locator(this.textHeader)).toBeVisible();
+    async verifyHeaderText(): Promise<void> {
+        await expect(this.textHeader).toBeVisible();
+    }
+
+    async verifyLockedUser(): Promise<void> {
+        await expect(this.page.getByText('Epic sadface:')).toBeVisible();
     }
 }
