@@ -6,9 +6,7 @@ export default class InventoryPage extends BasePage {
 
     private pagebutton: string;
 
-    private logOut: string;
-
-    private cartImage: Locator;
+    private logOutButton: string;
 
     private addToCartButton: string;
 
@@ -23,8 +21,7 @@ export default class InventoryPage extends BasePage {
     constructor(page: Page) {
         super(page);
         this.pagebutton = "//button[text()='Open Menu']";
-        this.logOut = "//*[@id='logout_sidebar_link']";
-        this.cartImage = page.locator('#shopping_cart_container');
+        this.logOutButton = "//*[@id='logout_sidebar_link']";
         this.addToCartButton = "//button[text()='ADD TO CART']";
         this.itemCards = page.locator('.inventory_item');
         this.firstButtonAddToCart = page.locator('[data-test^="add-to-cart"]').first();
@@ -36,15 +33,15 @@ export default class InventoryPage extends BasePage {
         await super.navigate(this.url);
     }
 
-    async assertOnPage() {
-        await expect(this.page, 'Expected the user to be on the inventory page').toHaveURL(
+    async assertOnInventoryPage() {
+        await expect(this.page, 'User is expected to be on the inventory page').toHaveURL(
             /inventory/,
         );
     }
 
-    async logOutToApplication(): Promise<void> {
+    async logOut(): Promise<void> {
         await this.page.click(this.pagebutton);
-        await this.page.click(this.logOut);
+        await this.page.click(this.logOutButton);
     }
 
     async clickAddButtonFirst(): Promise<void> {
@@ -66,10 +63,6 @@ export default class InventoryPage extends BasePage {
     //       await this.page.click(productSelector);
     // await expect(this.page).toHaveURL(new RegExp(`inventory-item.html\\?id=${productId}$`));
     //     }
-
-    async goToCart(): Promise<void> {
-        await this.cartImage.click();
-    }
 
     async selectSorting() {
         await this.sortDropdown.selectOption('lohi');
