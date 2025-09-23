@@ -24,12 +24,6 @@ export default class LoginPage extends BasePage {
         await super.navigate(this.url);
     }
 
-    async assertOnLoginPage() {
-        await expect(this.page, 'User is expected to be on the login page').toHaveURL(
-            ' https://www.saucedemo.com/',
-        );
-    }
-
     async login(username: string, password: string): Promise<void> {
         await this.usernameInput.fill(username);
         await this.passwordInput.fill(password);
@@ -37,13 +31,10 @@ export default class LoginPage extends BasePage {
     }
 
     async verifyHeaderText(): Promise<void> {
-        await expect(this.textHeader, 'User is expected to see text on the page').toBeVisible();
+        await expect(this.textHeader).toBeVisible();
     }
 
     async verifyLockedUser(): Promise<void> {
-        await expect(
-            this.page.getByText('Epic sadface:'),
-            'User is expected to stay on the same page and see text',
-        ).toBeVisible();
+        await expect(this.page.getByText('Epic sadface:')).toBeVisible();
     }
 }

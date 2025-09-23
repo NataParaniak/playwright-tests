@@ -1,11 +1,11 @@
 // // 1.	Парність числа
 // // Як перевірити, що число парне?
-// function even(n: number) {
+// function parne(n: number) {
 //     return n % 2 === 0;
 // }
 
-// console.log(even(2));
-// console.log(even(3));
+// console.log(parne(2));
+// console.log(parne(3));
 
 // // 2.	Реверс рядка
 

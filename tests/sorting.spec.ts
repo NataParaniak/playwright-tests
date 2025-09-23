@@ -11,7 +11,7 @@ test.beforeEach(async ({ page }) => {
     inventoryPage = new InventoryPage(page);
     await loginPage.navigate();
     await loginPage.login(users.standard_user.username, users.standard_user.password);
-    await inventoryPage.assertOnInventoryPage();
+    await inventoryPage.assertOnPage();
 });
 
 test('The user has the ability to sort ', async () => {
