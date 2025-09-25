@@ -1,7 +1,7 @@
 import { Page, Locator, expect } from '@playwright/test';
 import BasePage from './BasePage';
 
-export default class SuccessfullorderPage extends BasePage {
+export default class SuccessfullOrderPage extends BasePage {
     public successfullMessage: Locator;
 
     constructor(page: Page) {

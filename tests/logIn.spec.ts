@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 import LoginPage from '../pages/LoginPage';
 import InventoryPage from '../pages/InventoryPage';
 import users from '../data/users.json';
@@ -14,12 +14,12 @@ test.beforeEach(async ({ page }) => {
 
 test('User can log in with valid credentials', async () => {
     await loginPage.login(users.standard_user.username, users.standard_user.password);
-    await inventoryPage.assertOnPage();
+    await inventoryPage.assertOnInventoryPage();
 });
 
-test('Check if the user is blocked', async ({ page }) => {
+test('Check if the user is blocked', async () => {
     await loginPage.login(users.locked_user.username, users.locked_user.password);
-    await expect(page.getByText('Epic sadface:')).toBeVisible();
+    await loginPage.verifyLockedUser();
 });
 
 test('Check text visibility on login page', async () => {
@@ -28,5 +28,6 @@ test('Check text visibility on login page', async () => {
 
 test('Logout from application', async () => {
     await loginPage.login(users.standard_user.username, users.standard_user.password);
-    await inventoryPage.logOutToApplication();
+    await inventoryPage.logOut();
+    await loginPage.assertOnLoginPage();
 });
