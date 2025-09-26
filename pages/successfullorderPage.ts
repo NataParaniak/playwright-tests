@@ -12,7 +12,7 @@ export default class SuccessfullOrderPage extends BasePage {
     async successfullMessageVisible() {
         await expect(
             this.successfullMessage,
-            'User was waiting for a notification about a successful order.',
+            'Очікував повідомлення про успішне замовлення',
         ).toContainText('Thank you for your order!');
     }
 }

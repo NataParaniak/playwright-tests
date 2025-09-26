@@ -118,11 +118,12 @@
         "lib": ["DOM", "ES2021"],
         "moduleResolution": "node",
         "strict": true,
+        "resolveJsonModule": true,
         "esModuleInterop": true,
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
         "outDir": "dist",
-        "resolveJsonModule": true
+        "types": ["@playwright/test"]
     },
     "exclude": ["dist", "node_modules"]
 }

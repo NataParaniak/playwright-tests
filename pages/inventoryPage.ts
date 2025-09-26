@@ -12,11 +12,12 @@ export default class InventoryPage extends BasePage {
 
     private itemCards: Locator;
 
-    private firstButtonAddToCart: Locator;
+    // private itemPrices:Locator;
+    private nameProduct: Locator;
 
     private sortDropdown: Locator;
 
-    private itemPrices: Locator;
+    private firstButtonAddToCart: Locator;
 
     constructor(page: Page) {
         super(page);
@@ -24,9 +25,10 @@ export default class InventoryPage extends BasePage {
         this.logOutButton = "//*[@id='logout_sidebar_link']";
         this.addToCartButton = "//button[text()='ADD TO CART']";
         this.itemCards = page.locator('.inventory_item');
+        this.nameProduct = page.locator('.inventory_item_name').first();
         this.firstButtonAddToCart = page.locator('[data-test^="add-to-cart"]').first();
         this.sortDropdown = page.locator('.product_sort_container');
-        this.itemPrices = page.locator('.inventory_item_price');
+        // this.itemPrices=page.locator('')
     }
 
     async navigate() {
@@ -45,31 +47,35 @@ export default class InventoryPage extends BasePage {
     }
 
     async clickAddButtonFirst(): Promise<void> {
+        // await this.firstButtonAddToCart.waitFor({ state: 'visible' });
         await this.firstButtonAddToCart.click();
     }
 
+    // async isCartVisible(): Promise<boolean> {
+    //     return this.page.locator(this.cartImage).isVisible();
+    // }
+
     async verifyNumberOfItems(expectCount: number): Promise<void> {
-        await expect(
-            this.itemCards,
-            `Expected ${expectCount} items, but found a different number`,
-        ).toHaveCount(expectCount);
+        await expect(this.itemCards).toHaveCount(expectCount);
     }
 
-    //     async clickProductByName(productName: keyof typeof products): Promise<void> {
-    //         const productId = products[productName]
+    async takeScreenshot(filename = 'inventory.png'): Promise<void> {
+        await this.page.screenshot({ path: filename });
+    }
 
-    // const productSelector = `a[href*="inventory-item.html?id=${productId}"]`;
-    // await this.page.locator(productSelector).waitFor({ state: 'visible', timeout: 5000 });
-    //       await this.page.click(productSelector);
-    // await expect(this.page).toHaveURL(new RegExp(`inventory-item.html\\?id=${productId}$`));
-    //     }
+    async nameProductClickable(): Promise<void> {
+        const nameProductVariable = this.page.locator('.inventory_item_name').first();
+        await nameProductVariable.waitFor({ state: 'visible' });
+        await nameProductVariable.click();
+    }
 
     async selectSorting() {
         await this.sortDropdown.selectOption('lohi');
     }
 
-    async verifyPrice() {
-        const prices = await this.itemPrices.allTextContents();
-        console.log(prices);
-    }
+    // async verifyPrice() {
+    //     const prices = await this.itemPrices.allTextContents();
+    //     console.log(prices);
+
+    // }
 }
