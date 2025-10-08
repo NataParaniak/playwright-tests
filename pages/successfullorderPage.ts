@@ -9,10 +9,10 @@ export default class SuccessfullOrderPage extends BasePage {
         this.successfullMessage = page.locator('h2');
     }
 
-    async successfullMessageVisible() {
+    async verifySuccessfullMessageVisible() {
         await expect(
             this.successfullMessage,
-            'Очікував повідомлення про успішне замовлення',
+            'User should see notification about a successful order',
         ).toContainText('Thank you for your order!');
     }
 }

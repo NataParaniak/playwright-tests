@@ -111,19 +111,20 @@
 //     "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
 //   }
 // }
+
 {
     "compilerOptions": {
-        "target": "ES2021",
-        "module": "ESNext",
+        "target": "ESNext",
+        "module": "CommonJS",
         "lib": ["DOM", "ES2021"],
-        "moduleResolution": "node",
         "strict": true,
         "resolveJsonModule": true,
-        "esModuleInterop": true,
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
         "outDir": "dist",
-        "types": ["@playwright/test"]
+        "types": ["node", "@playwright/test"],
+        "moduleResolution": "node",
+        "esModuleInterop": true
     },
     "exclude": ["dist", "node_modules"]
 }

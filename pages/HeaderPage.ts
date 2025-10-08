@@ -1,4 +1,4 @@
-import { Page, Locator } from '@playwright/test';
+import { Page, Locator, expect } from '@playwright/test';
 import BasePage from './BasePage';
 
 export default class HeaderPage extends BasePage {
@@ -18,5 +18,13 @@ export default class HeaderPage extends BasePage {
 
     async goToCart(): Promise<void> {
         await this.cartImage.click();
+    }
+
+    async assertCartIconVisible(): Promise<void> {
+        await expect(this.cartImage).toBeVisible();
+    }
+
+    async assertCartHasItemCount(count: number) {
+        await expect(this.cartImage).toHaveText(String(count));
     }
 }

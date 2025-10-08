@@ -1,12 +1,19 @@
-//     import { Page, Locator } from '@playwright/test';
-//     import BasePage from './BasePage';
+import { Page } from '@playwright/test';
+import BasePage from './BasePage';
 
-//     export default class SideBarPage extends BasePage {
-//     //    private logOutButton: string;
+export default class SideBarPage extends BasePage {
+    private pagebutton: string;
 
-//         constructor(page: Page) {
-//            super(page);
-//         //    this.logOutButton = "//*[@id='logout_sidebar_link']";
-//         }
+    private logOutButton: string;
 
-// }
+    constructor(page: Page) {
+        super(page);
+        this.pagebutton = "//button[text()='Open Menu']";
+        this.logOutButton = "//*[@id='logout_sidebar_link']";
+    }
+
+    async logOut(): Promise<void> {
+        await this.page.click(this.pagebutton);
+        await this.page.click(this.logOutButton);
+    }
+}

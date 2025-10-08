@@ -4,19 +4,19 @@ import BasePage from './BasePage';
 export default class LoginPage extends BasePage {
     private url = '/';
 
-    private usernameInput: Locator;
+    private usernameInput: string;
 
-    private passwordInput: Locator;
+    private passwordInput: string;
 
-    private loginButton: Locator;
+    private loginButton: string;
 
     private textHeader: Locator;
 
     constructor(page: Page) {
         super(page);
-        this.usernameInput = page.locator('#user-name');
-        this.passwordInput = page.locator('#password');
-        this.loginButton = page.locator('#login-button');
+        this.usernameInput = '#user-name';
+        this.passwordInput = '#password';
+        this.loginButton = '#login-button';
         this.textHeader = page.locator("//h4[text()='Accepted usernames are:']");
     }
 

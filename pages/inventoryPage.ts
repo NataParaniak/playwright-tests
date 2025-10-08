@@ -4,15 +4,10 @@ import BasePage from './BasePage';
 export default class InventoryPage extends BasePage {
     private url = '/inventory.html';
 
-    private pagebutton: string;
-
-    private logOutButton: string;
-
     private addToCartButton: string;
 
     private itemCards: Locator;
 
-    // private itemPrices:Locator;
     private nameProduct: Locator;
 
     private sortDropdown: Locator;
@@ -21,14 +16,14 @@ export default class InventoryPage extends BasePage {
 
     constructor(page: Page) {
         super(page);
-        this.pagebutton = "//button[text()='Open Menu']";
-        this.logOutButton = "//*[@id='logout_sidebar_link']";
+
         this.addToCartButton = "//button[text()='ADD TO CART']";
         this.itemCards = page.locator('.inventory_item');
         this.nameProduct = page.locator('.inventory_item_name').first();
-        this.firstButtonAddToCart = page.locator('[data-test^="add-to-cart"]').first();
+        this.firstButtonAddToCart = page
+            .locator('.inventory_item button', { hasText: 'Add to cart' })
+            .first();
         this.sortDropdown = page.locator('.product_sort_container');
-        // this.itemPrices=page.locator('')
     }
 
     async navigate() {
@@ -41,19 +36,9 @@ export default class InventoryPage extends BasePage {
         );
     }
 
-    async logOut(): Promise<void> {
-        await this.page.click(this.pagebutton);
-        await this.page.click(this.logOutButton);
-    }
-
     async clickAddButtonFirst(): Promise<void> {
-        // await this.firstButtonAddToCart.waitFor({ state: 'visible' });
         await this.firstButtonAddToCart.click();
     }
-
-    // async isCartVisible(): Promise<boolean> {
-    //     return this.page.locator(this.cartImage).isVisible();
-    // }
 
     async verifyNumberOfItems(expectCount: number): Promise<void> {
         await expect(this.itemCards).toHaveCount(expectCount);
@@ -72,10 +57,4 @@ export default class InventoryPage extends BasePage {
     async selectSorting() {
         await this.sortDropdown.selectOption('lohi');
     }
-
-    // async verifyPrice() {
-    //     const prices = await this.itemPrices.allTextContents();
-    //     console.log(prices);
-
-    // }
 }
