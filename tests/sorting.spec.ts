@@ -10,7 +10,7 @@ test.beforeEach(async ({ page }) => {
     loginPage = new LoginPage(page);
     inventoryPage = new InventoryPage(page);
     await loginPage.navigate();
-    await loginPage.login(users.standard_user.username, users.standard_user.password);
+    await loginPage.login(users.standardUser.username, users.standardUser.password);
     await inventoryPage.assertOnInventoryPage();
 });
 

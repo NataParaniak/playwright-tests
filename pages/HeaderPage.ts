@@ -21,10 +21,13 @@ export default class HeaderPage extends BasePage {
     }
 
     async assertCartIconVisible(): Promise<void> {
-        await expect(this.cartImage).toBeVisible();
+        await expect(this.cartImage, 'User is expected to see icon cart on the page').toBeVisible();
     }
 
     async assertCartHasItemCount(count: number) {
-        await expect(this.cartImage).toHaveText(String(count));
+        await expect(
+            this.cartImage,
+            'User is expected to see the number of items in the cart',
+        ).toHaveText(String(count));
     }
 }

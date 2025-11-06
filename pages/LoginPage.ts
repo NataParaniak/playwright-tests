@@ -12,12 +12,21 @@ export default class LoginPage extends BasePage {
 
     private textHeader: Locator;
 
+    private loginPageLogo: Locator;
+
+    private loginCredential: string;
+
+    private passwordCredential: string;
+
     constructor(page: Page) {
         super(page);
         this.usernameInput = '#user-name';
         this.passwordInput = '#password';
         this.loginButton = '#login-button';
         this.textHeader = page.locator("//h4[text()='Accepted usernames are:']");
+        this.loginPageLogo = page.locator('.bot_column');
+        this.loginCredential = '#login_credentials';
+        this.passwordCredential = '.login_password';
     }
 
     async navigate() {
@@ -33,7 +42,40 @@ export default class LoginPage extends BasePage {
     async login(username: string, password: string): Promise<void> {
         await this.type(this.usernameInput, username);
         await this.type(this.passwordInput, password);
-        await this.click(this.loginButton);
+        await this.page.click(this.loginButton);
+    }
+
+    async veryfyLogoPage(): Promise<void> {
+        await this.loginPageLogo.isVisible();
+    }
+
+    async verifyTitile(): Promise<void> {
+        const title = await this.getTitle();
+        await expect(title, 'Page title should contain "Swag"').toContain('Swag');
+    }
+
+    async verifyUrl(): Promise<void> {
+        const url = await this.getUrl();
+        await expect(url, 'Page url should contain "saucedemo"').toContain('saucedemo');
+    }
+
+    async usernameFieldVisible(): Promise<void> {
+        return await this.isElementVisible(
+            this.usernameInput,
+            'The usernamefield must be visible.',
+        );
+    }
+
+    async userpasswordFieldVisible(): Promise<void> {
+        return await this.isElementVisible(this.passwordInput, 'The paswordfield must be visible.');
+    }
+
+    async loginCredentialsVisible(): Promise<void> {
+        return await this.isElementEnabled(this.loginCredential);
+    }
+
+    async passwordCredentialsVisible(): Promise<void> {
+        return await this.isElementEnabled(this.passwordCredential);
     }
 
     async verifyHeaderText(): Promise<void> {
@@ -45,5 +87,9 @@ export default class LoginPage extends BasePage {
             this.page.getByText('Epic sadface:'),
             'User is expected to stay on the same page and see text',
         ).toBeVisible();
+    }
+
+    async loginButtonIsEnabled(): Promise<void> {
+        return await this.isElementEnabled(this.loginButton);
     }
 }

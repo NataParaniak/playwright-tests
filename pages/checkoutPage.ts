@@ -18,7 +18,7 @@ export default class CheckoutPage extends BasePage {
         this.continueButton = '.btn_primary.cart_button';
     }
 
-    async dataFilling(firstname: string, lastname: string, postalcode: string): Promise<void> {
+    async fillData(firstname: string, lastname: string, postalcode: string): Promise<void> {
         await this.type(this.firstNameInput, firstname);
         await this.type(this.lastNameInput, lastname);
         await this.type(this.postalCodeInput, postalcode);

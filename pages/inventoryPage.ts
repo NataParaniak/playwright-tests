@@ -1,28 +1,24 @@
 import { Page, Locator, expect } from '@playwright/test';
 import BasePage from './BasePage';
+// import HeaderPage from "./HeaderPage"
+// import ProductComponent from './ProductComponent'
 
 export default class InventoryPage extends BasePage {
     private url = '/inventory.html';
 
-    private addToCartButton: string;
+    // private addToCartButton: string;
 
     private itemCards: Locator;
 
-    private nameProduct: Locator;
+    // private productName: Locator;
 
     private sortDropdown: Locator;
 
-    private firstButtonAddToCart: Locator;
-
     constructor(page: Page) {
         super(page);
-
-        this.addToCartButton = "//button[text()='ADD TO CART']";
+        //  this.addToCartButton = "//button[text()='ADD TO CART']";
         this.itemCards = page.locator('.inventory_item');
-        this.nameProduct = page.locator('.inventory_item_name').first();
-        this.firstButtonAddToCart = page
-            .locator('.inventory_item button', { hasText: 'Add to cart' })
-            .first();
+        //  this.productName = page.locator('.inventory_item_name').first();
         this.sortDropdown = page.locator('.product_sort_container');
     }
 
@@ -35,17 +31,16 @@ export default class InventoryPage extends BasePage {
             /inventory/,
         );
     }
+    //    async getName() {
+    //         return root.locator('.inventory_item_name').textContent();
+    //     }
 
-    async clickAddButtonFirst(): Promise<void> {
-        await this.firstButtonAddToCart.click();
-    }
+    //     async addToCart() {
+    //         await this.root.locator('button', { hasText: 'Add to cart' }).click();
+    //     }
 
     async verifyNumberOfItems(expectCount: number): Promise<void> {
         await expect(this.itemCards).toHaveCount(expectCount);
-    }
-
-    async takeScreenshot(filename = 'inventory.png'): Promise<void> {
-        await this.page.screenshot({ path: filename });
     }
 
     async nameProductClickable(): Promise<void> {

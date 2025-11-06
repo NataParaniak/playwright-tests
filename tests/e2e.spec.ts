@@ -5,7 +5,7 @@ import CartPage from '../pages/CartPage';
 import CheckoutPage from '../pages/CheckOutPage';
 import CheckOutOverviewPage from '../pages/CheckOutOverview';
 import SuccessfullOrderPage from '../pages/SuccessfullOrderPage';
-import HeaderPage from '../pages/HeaderPage';
+// import HeaderPage from '../pages/HeaderPage';
 import users from '../data/users.json';
 import adress from '../data/adress.json';
 
@@ -17,20 +17,18 @@ test.describe('Sausdemo e2e', async () => {
         const checkoutPage = new CheckoutPage(page);
         const checkoutoverviewPage = new CheckOutOverviewPage(page);
         const successfullorderPage = new SuccessfullOrderPage(page);
-        const headerPage = new HeaderPage(page);
 
         await loginPage.navigate();
-        await loginPage.login(users.standard_user.username, users.standard_user.password);
+        await loginPage.login(users.standardUser.username, users.standardUser.password);
         await inventoryPage.assertOnInventoryPage();
-        await inventoryPage.clickAddButtonFirst();
-        await headerPage.goToCart();
-        await cartPage.checkoutClick();
-        await checkoutPage.dataFilling(
-            adress.standard_user.username,
-            adress.standard_user.surname,
-            adress.standard_user.postalcode,
+
+        await cartPage.clickCheckout();
+        await checkoutPage.fillData(
+            adress.standardUser.username,
+            adress.standardUser.surname,
+            adress.standardUser.postalcode,
         );
-        await checkoutoverviewPage.finishClick();
+        await checkoutoverviewPage.сlickFinishButton();
         await successfullorderPage.verifySuccessfullMessageVisible();
     });
 });

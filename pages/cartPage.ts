@@ -9,7 +9,7 @@ export default class CartPage extends BasePage {
         this.checkout = page.locator('.btn_action.checkout_button');
     }
 
-    async checkoutClick(): Promise<void> {
+    async clickCheckout(): Promise<void> {
         await this.checkout.click();
     }
 }

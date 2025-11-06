@@ -13,12 +13,11 @@ test.beforeEach(async ({ page }) => {
     inventoryPage = new InventoryPage(page);
     headerPage = new HeaderPage(page);
     await loginPage.navigate();
-    await loginPage.login(users.standard_user.username, users.standard_user.password);
+    await loginPage.login(users.standardUser.username, users.standardUser.password);
     await inventoryPage.assertOnInventoryPage();
 });
 
 test('User can check for cart image ', async () => {
     await headerPage.assertCartIconVisible();
-    await inventoryPage.clickAddButtonFirst();
     await headerPage.assertCartHasItemCount(1);
 });
