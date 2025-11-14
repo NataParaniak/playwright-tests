@@ -8,7 +8,7 @@ export default class SideBarPage extends BasePage {
 
     constructor(page: Page) {
         super(page);
-        this.pagebutton = "//button[text()='Open Menu']";
+        this.pagebutton = '#react-burger-menu-btn';
         this.logOutButton = "//*[@id='logout_sidebar_link']";
     }
 

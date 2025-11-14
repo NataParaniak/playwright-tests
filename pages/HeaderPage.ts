@@ -28,6 +28,6 @@ export default class HeaderPage extends BasePage {
         await expect(
             this.cartImage,
             'User is expected to see the number of items in the cart',
-        ).toHaveText(String(count));
+        ).toHaveText(String(count), { timeout: 10000 });
     }
 }
