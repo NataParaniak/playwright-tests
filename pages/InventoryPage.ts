@@ -27,9 +27,11 @@ export default class InventoryPage extends BasePage {
     }
 
     async assertOnInventoryPage() {
+        // await expect(this.page, 'User is expected to be on the inventory page').toHaveURL('https://www.saucedemo.com/inventory.html');
+
         await expect(this.page, 'User is expected to be on the inventory page').toHaveURL(
-            /inventory/,
-            { timeout: 10000 },
+            /.*inventory\.html/,
+            { timeout: 7000 },
         );
     }
     //    async getName() {

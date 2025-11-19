@@ -5,7 +5,8 @@ test.beforeEach(async ({ loginPage }) => {
     await loginPage.navigate();
 });
 
-test('User can log in with valid credentials', async ({ inventoryPage }) => {
+test('User can log in with valid credentials', async ({ loginPage, inventoryPage }) => {
+    await loginPage.login(users.standardUser.username, users.standardUser.password);
     await inventoryPage.assertOnInventoryPage();
 });
 
@@ -40,6 +41,7 @@ test('Verify Login and password credentials are visible at the bottom of login p
 });
 
 test('Logout from application', async ({ loginPage, sideBarPage }) => {
+    await loginPage.login(users.standardUser.username, users.standardUser.password);
     await sideBarPage.logOut();
     await loginPage.assertOnLoginPage();
 });

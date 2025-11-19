@@ -8,7 +8,7 @@ export default class BasePage {
     }
 
     async navigate(url: string): Promise<void> {
-        await this.page.goto(url);
+        await this.page.goto(`https://www.saucedemo.com${url}`);
     }
 
     async click(selector: string): Promise<void> {

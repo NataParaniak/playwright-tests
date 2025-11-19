@@ -35,7 +35,7 @@ export default class LoginPage extends BasePage {
 
     async assertOnLoginPage() {
         await expect(this.page, 'User is expected to be on the login page').toHaveURL(
-            ' https://www.saucedemo.com/',
+            'https://www.saucedemo.com',
         );
     }
 
