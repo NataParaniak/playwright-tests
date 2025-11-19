@@ -6,10 +6,10 @@ export default class CartPage extends BasePage {
 
     constructor(page: Page) {
         super(page);
-        this.checkout = page.locator('.btn_action.checkout_button');
+        this.checkout = page.locator('#checkout');
     }
 
-    async clickCheckoutButton(): Promise<void> {
+    async clickCheckout(): Promise<void> {
         await this.checkout.click();
     }
 }
