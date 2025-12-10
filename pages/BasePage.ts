@@ -20,11 +20,11 @@ export default class BasePage {
     }
 
     async getTitle() {
-        return await this.page.title();
+        return this.page.title();
     }
 
     async getUrl() {
-        return await this.page.url();
+        return this.page.url();
     }
 
     async isElementVisible(selector: string, errorMessage: string) {

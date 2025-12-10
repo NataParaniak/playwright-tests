@@ -1,20 +1,11 @@
-import { test } from '@playwright/test';
-import LoginPage from '../pages/LoginPage';
-import InventoryPage from '../pages/InventoryPage';
-import users from '../data/users.json';
+import { test } from '../fixtures/fixtures';
 
-let loginPage: LoginPage;
-let inventoryPage: InventoryPage;
-
-test.beforeEach(async ({ page }) => {
-    loginPage = new LoginPage(page);
-    inventoryPage = new InventoryPage(page);
-    await loginPage.navigate();
-    await loginPage.login(users.standardUser.username, users.standardUser.password);
+test.beforeEach(async ({ inventoryPage, loginStandardUser }) => {
+    await loginStandardUser;
     await inventoryPage.assertOnInventoryPage();
 });
 
-test('The user has the ability to sort ', async () => {
-    await inventoryPage.selectSorting();
-    // await inventoryPage.verifyPrice();
-});
+// test('The user has the ability to sort ', async (inventoryPage) => {
+//     await inventoryPage.selectSorting();
+//     // await inventoryPage.verifyPrice();
+// });

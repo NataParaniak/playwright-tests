@@ -51,31 +51,28 @@ export default class LoginPage extends BasePage {
 
     async verifyTitile(): Promise<void> {
         const title = await this.getTitle();
-        await expect(title, 'Page title should contain "Swag"').toContain('Swag');
+        expect(title, 'Page title should contain "Swag"').toContain('Swag');
     }
 
     async verifyUrl(): Promise<void> {
         const url = await this.getUrl();
-        await expect(url, 'Page url should contain "saucedemo"').toContain('saucedemo');
+        expect(url, 'Page url should contain "saucedemo"').toContain('saucedemo');
     }
 
     async usernameFieldVisible(): Promise<void> {
-        return await this.isElementVisible(
-            this.usernameInput,
-            'The usernamefield must be visible.',
-        );
+        return this.isElementVisible(this.usernameInput, 'The usernamefield must be visible.');
     }
 
     async userpasswordFieldVisible(): Promise<void> {
-        return await this.isElementVisible(this.passwordInput, 'The paswordfield must be visible.');
+        return this.isElementVisible(this.passwordInput, 'The paswordfield must be visible.');
     }
 
     async loginCredentialsVisible(): Promise<void> {
-        return await this.isElementEnabled(this.loginCredential);
+        return this.isElementEnabled(this.loginCredential);
     }
 
     async passwordCredentialsVisible(): Promise<void> {
-        return await this.isElementEnabled(this.passwordCredential);
+        return this.isElementEnabled(this.passwordCredential);
     }
 
     async verifyHeaderText(): Promise<void> {
@@ -90,6 +87,6 @@ export default class LoginPage extends BasePage {
     }
 
     async loginButtonIsEnabled(): Promise<void> {
-        return await this.isElementEnabled(this.loginButton);
+        return this.isElementEnabled(this.loginButton);
     }
 }

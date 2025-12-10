@@ -2,9 +2,9 @@ import { Page, Locator, expect } from '@playwright/test';
 import BasePage from './BasePage';
 
 export default class HeaderPage extends BasePage {
-    private menuButton: Locator;
+    readonly menuButton: Locator;
 
-    private cartImage: Locator;
+    readonly cartImage: Locator;
 
     constructor(page: Page) {
         super(page);

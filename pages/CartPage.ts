@@ -2,7 +2,7 @@ import { Page, Locator } from '@playwright/test';
 import BasePage from './BasePage';
 
 export default class CartPage extends BasePage {
-    private checkout: Locator;
+    readonly checkout: Locator;
 
     constructor(page: Page) {
         super(page);
