@@ -26,9 +26,12 @@ module.exports = {
                 js: 'never',
             },
         ],
-        'import/no-extraneous-dependencies': 'off', // можна також через overrides
+        'import/no-extraneous-dependencies': 'off',
         'no-return-await': 'warn',
         'no-console': 'off',
+
+        'no-await-in-loop': 'off',
+        'no-plusplus': 'off',
     },
     overrides: [
         {

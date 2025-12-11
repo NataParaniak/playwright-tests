@@ -6,10 +6,13 @@ export default class HeaderPage extends BasePage {
 
     readonly cartImage: Locator;
 
+    readonly productQuantity: Locator;
+
     constructor(page: Page) {
         super(page);
         this.menuButton = page.locator("//button[text()='Open Menu']");
         this.cartImage = page.locator('#shopping_cart_container');
+        this.productQuantity = page.locator('#shopping_cart_container .shopping_cart_badge');
     }
 
     async goToSideBar(): Promise<void> {
@@ -26,7 +29,7 @@ export default class HeaderPage extends BasePage {
 
     async assertCartHasItemCount(count: number) {
         await expect(
-            this.cartImage,
+            this.productQuantity,
             'User is expected to see the number of items in the cart',
         ).toHaveText(String(count), { timeout: 10000 });
     }

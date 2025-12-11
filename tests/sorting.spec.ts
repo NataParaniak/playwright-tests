@@ -5,7 +5,7 @@ test.beforeEach(async ({ inventoryPage, loginStandardUser }) => {
     await inventoryPage.assertOnInventoryPage();
 });
 
-// test('The user has the ability to sort ', async (inventoryPage) => {
-//     await inventoryPage.selectSorting();
-//     // await inventoryPage.verifyPrice();
-// });
+test('The user has the ability to sort ', async ({ inventoryPage }) => {
+    await inventoryPage.selectLowToHighFromDropDown();
+    await inventoryPage.verifySortingLowToHighFromDropDown();
+});

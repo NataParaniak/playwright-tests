@@ -15,19 +15,19 @@ export default class InventoryItemComponent extends InventoryPage {
             .filter({ has: this.page.locator('.inventory_item_name', { hasText: productName }) });
     }
 
-    static getTitleName(card: Locator) {
-        return card.locator('.inventory_item_name');
-    }
+    // getTitleName(card: Locator) {
+    //     return card.locator('.inventory_item_name');
+    // }
 
-    static getDescription(card: Locator) {
-        return card.locator('.inventory_item_desc');
-    }
+    //  getDescription(card: Locator) {
+    //     return card.locator('.inventory_item_desc');
+    // }
 
-    static getPrice(card: Locator) {
-        return card.locator('.inventory_item_price');
-    }
+    //  getPrice(card: Locator) {
+    //     return card.locator('.inventory_item_price');
+    // }
 
-    static getButton(card: Locator) {
-        return card.locator('button');
-    }
+    // getButton(card: Locator) {
+    //     return card.locator('button');
+    // }
 }
