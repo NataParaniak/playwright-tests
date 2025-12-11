@@ -32,6 +32,7 @@ module.exports = {
 
         'no-await-in-loop': 'off',
         'no-plusplus': 'off',
+        'class-methods-use-this': 'off',
     },
     overrides: [
         {
