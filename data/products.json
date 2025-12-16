@@ -1,9 +1,20 @@
 {
-    "productsCount": 6,
-    "Sauce Labs Backpack": 4,
-    "Sauce Labs Bike Light": 0,
-    "Sauce Labs Bolt T-Shirt": 1,
-    "Sauce Labs Fleece Jacket": 5,
-    "Sauce Labs Onesie": 2,
-    "Test.allTheThings() T-Shirt (Red)": 3
+    "products": [
+        {
+            "name": "Sauce Labs Backpack",
+            "description": "carry.allTheThings()",
+            "price": "$29.99",
+            "count": 4
+        },
+        { "name": "Sauce Labs Bike Light", "description": "...", "price": "$9.99", "count": 0 },
+        { "name": "Sauce Labs Bolt T-Shirt", "description": "...", "price": "$15.99", "count": 1 },
+        { "name": "Sauce Labs Fleece Jacket", "description": "...", "price": "$49.99", "count": 5 },
+        { "name": "Sauce Labs Onesie", "description": "...", "price": "$25.99", "count": 2 },
+        {
+            "name": "Test.allTheThings() T-Shirt (Red)",
+            "description": "...",
+            "price": "$15.99",
+            "count": 3
+        }
+    ]
 }

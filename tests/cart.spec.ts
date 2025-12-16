@@ -5,8 +5,8 @@ test.beforeEach(async ({ inventoryPage, loginStandardUser }) => {
     await inventoryPage.assertOnInventoryPage();
 });
 
-test('User can check for cart image ', async ({ headerPage, addToCartFirstProduct }) => {
-    await addToCartFirstProduct('Sauce Labs Backpack');
+test('User can check for cart image ', async ({ inventoryPage, headerPage }) => {
+    await inventoryPage.addToCart('Sauce Labs Backpack');
     await headerPage.assertCartIconVisible();
     await headerPage.assertCartHasItemCount(1);
 });

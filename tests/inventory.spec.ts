@@ -1,5 +1,6 @@
 import { expect } from '@playwright/test';
 import { test } from '../fixtures/fixtures';
+import productsData from '../data/products.json';
 
 test.beforeEach(async ({ inventoryPage, loginStandardUser }) => {
     await loginStandardUser;
@@ -17,16 +18,16 @@ test(`User can check that there are ${productsCount} products on the inventory p
 });
 
 test('Product name are clickable', async ({ page, inventoryComponentItem }) => {
-    const productName = 'Sauce Labs Backpack';
-    const card = inventoryComponentItem.getProductCard(productName);
+    const product = productsData.products[0];
+    const card = inventoryComponentItem.getProductCard(product.name);
     const title = inventoryComponentItem.getTitleName(card);
     await title.click();
     await expect(page).toHaveURL(/inventory-item\.html/);
 });
 
 test('Check product card structure and text content', async ({ inventoryComponentItem }) => {
-    const productName = 'Sauce Labs Backpack';
-    const card = inventoryComponentItem.getProductCard(productName);
+    const product = productsData.products[0];
+    const card = inventoryComponentItem.getProductCard(product.name);
     await expect(card).toHaveCount(1);
 
     const title = inventoryComponentItem.getTitleName(card);
@@ -39,17 +40,27 @@ test('Check product card structure and text content', async ({ inventoryComponen
     await expect(price).toBeVisible();
     await expect(button).toBeVisible();
 
-    await expect(title).toHaveText(productName);
-    await expect(description).toContainText('carry.allTheThings()');
-    await expect(price).toHaveText(/^\$29\.99$/);
+    await expect(title).toHaveText(product.name);
+    await expect(description).toContainText(product.description);
+    await expect(price).toHaveText(product.price);
     await expect(button).toHaveText(/Add to cart/i);
 });
 
 test('Check the button change to "REMOVE"', async ({ inventoryComponentItem }) => {
-    const productName = 'Sauce Labs Backpack';
-    const card = inventoryComponentItem.getProductCard(productName);
+    const product = productsData.products[0];
+    const card = inventoryComponentItem.getProductCard(product.name);
     const button = inventoryComponentItem.getButton(card);
     await expect(button).toHaveText(/Add to cart/i);
     await button.click();
     await expect(button).toHaveText(/Remove/i);
+});
+test('Check if the user pressed the "ADD TO CART" button twice', async ({
+    inventoryComponentItem,
+}) => {
+    const product = productsData.products[0];
+    const card = inventoryComponentItem.getProductCard(product.name);
+    const button = inventoryComponentItem.getButton(card);
+    await expect(button).toHaveText(/Add to cart/i);
+    await button.dblclick();
+    await expect(button).toHaveText(/Add to cart/i);
 });

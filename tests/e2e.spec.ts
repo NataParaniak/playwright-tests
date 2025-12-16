@@ -9,12 +9,11 @@ test.describe('Sausdemo e2e', async () => {
         checkoutPage,
         checkoutoverviewPage,
         successfullOrderPage,
-        addToCartFirstProduct,
         headerPage,
     }) => {
         await loginStandardUser;
         await inventoryPage.assertOnInventoryPage();
-        await addToCartFirstProduct('Sauce Labs Backpack');
+        await inventoryPage.addToCart('Sauce Labs Backpack');
         await headerPage.goToCart();
         await cartPage.clickCheckout();
         await checkoutPage.fillData(

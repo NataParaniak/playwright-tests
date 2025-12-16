@@ -15,7 +15,7 @@ test('Check if the user is blocked', async ({ loginPage }) => {
     await loginPage.verifyLockedUser();
 });
 
-test('Verify Logo are visible on login page', async ({ loginPage }) => {
+test('Verify Logo, Tittle, Url are visible on login page', async ({ loginPage }) => {
     await loginPage.veryfyLogoPage();
     await loginPage.verifyTitile();
     await loginPage.verifyUrl();
@@ -29,7 +29,9 @@ test('Verify login button are enable on login page', async ({ loginPage }) => {
     await loginPage.loginButtonIsEnabled();
 });
 
-test('Check text visibility on login page', async ({ loginPage }) => {
+test('Verify that the text “Accepted usernames are:” is visible on the login page', async ({
+    loginPage,
+}) => {
     await loginPage.verifyHeaderText();
 });
 

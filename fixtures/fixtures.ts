@@ -21,7 +21,7 @@ type MyFixtures = {
     checkoutPage: CheckoutPage;
     checkoutoverviewPage: CheckoutoverviewPage;
     successfullOrderPage: SuccessfullOrderPage;
-    addToCartFirstProduct: (productName: string) => Promise<void>;
+    // addToCartProduct: (productName: string) => Promise<void>;
 };
 
 export const test = base.extend<MyFixtures>({
@@ -65,11 +65,11 @@ export const test = base.extend<MyFixtures>({
         const successfullOrderPage = new SuccessfullOrderPage(page);
         await use(successfullOrderPage);
     },
-    addToCartFirstProduct: async ({ inventoryPage }, use) => {
-        await use(async (productName: string) => {
-            await inventoryPage.addToCart(productName);
-        });
-    },
+    // addToCartProduct: async ({ inventoryPage }, use) => {
+    //     await use(async (productName: string) => {
+    //         await inventoryPage.addToCart(productName);
+    //     });
+    // },
 
     loginStandardUser: async ({ page }, use) => {
         const loginPage = new LoginPage(page);

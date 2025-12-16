@@ -28,6 +28,11 @@ export default class InventoryPage extends BasePage {
         );
     }
 
+    //      async addToCart(productName: string): Promise<void> {
+    //     const card = this.page.locator(`.inventory_item:has-text("${productName}")`);
+    //     await card.locator('button').click();
+    //   }
+
     async addToCart(productName: string) {
         const button = this.page.locator(`.inventory_item:has-text("${productName}") button`);
         await button.click();
@@ -35,6 +40,10 @@ export default class InventoryPage extends BasePage {
 
     async selectLowToHighFromDropDown() {
         await this.sortDropdown.selectOption('lohi');
+    }
+
+    async selectHighToLowFromDropDown() {
+        await this.sortDropdown.selectOption('hilo');
     }
 
     async verifySortingLowToHighFromDropDown() {
@@ -47,6 +56,20 @@ export default class InventoryPage extends BasePage {
             prices.push(Number(text.replace('$', '')));
         }
         const sorted = [...prices].sort((a, b) => a - b);
+
+        expect(prices).toEqual(sorted);
+    }
+
+    async verifySortingHighToLowFromDropDown() {
+        const priceListOfItem = this.itemPrice;
+        const count = await priceListOfItem.count();
+        const prices: number[] = [];
+
+        for (let i = 0; i < count; i += 1) {
+            const text = await priceListOfItem.nth(i).innerText();
+            prices.push(Number(text.replace('$', '')));
+        }
+        const sorted = [...prices].sort((a, b) => b - a);
 
         expect(prices).toEqual(sorted);
     }
