@@ -13,17 +13,11 @@ export default class BasePage {
 
     async isElementVisible(selector: string, errorMessage: string) {
         const element = this.page.locator(selector);
-        try {
-            const isVisible = await element.isVisible();
-            expect(isVisible).toBeTruthy();
-        } catch (error) {
-            throw new Error(`${errorMessage}. Details: ${error}`);
-        }
+        await expect(element, errorMessage).toBeVisible();
     }
 
     async isElementEnabled(selector: string) {
         const element = this.page.locator(selector);
-        const isEnabled = await element.isEnabled();
-        expect(isEnabled, 'Element is enabled').toBeTruthy();
+        await expect(element, 'Element should be enabled').toBeEnabled();
     }
 }
