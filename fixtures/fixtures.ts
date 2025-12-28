@@ -21,7 +21,6 @@ type MyFixtures = {
     checkoutPage: CheckoutPage;
     checkoutoverviewPage: CheckoutoverviewPage;
     successfullOrderPage: SuccessfullOrderPage;
-    // addToCartProduct: (productName: string) => Promise<void>;
 };
 
 export const test = base.extend<MyFixtures>({

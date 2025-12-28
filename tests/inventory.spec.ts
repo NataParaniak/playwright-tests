@@ -7,33 +7,31 @@ test.beforeEach(async ({ inventoryPage, loginStandardUser }) => {
     await inventoryPage.assertOnInventoryPage();
 });
 
-const productsCount = 6;
-test(`User can check that there are ${productsCount} products on the inventory page`, async ({
-    page,
+test(`User can check that products are visible on the inventory page`, async ({
+    inventoryPage,
     loginStandardUser,
 }) => {
     await loginStandardUser;
-    const products = page.locator('.inventory_item_name');
-    await expect(products).toHaveCount(productsCount);
+    await inventoryPage.assertProductsCount(6);
 });
 
 test('Product name are clickable', async ({ page, inventoryComponentItem }) => {
     const product = productsData.products[0];
-    const card = inventoryComponentItem.getProductCard(product.name);
-    const title = inventoryComponentItem.getTitleName(card);
+    const card = inventoryComponentItem.getProductCardLocator(product.name);
+    const title = inventoryComponentItem.getTitleNameLocator(card);
     await title.click();
     await expect(page).toHaveURL(/inventory-item\.html/);
 });
 
 test('Check product card structure and text content', async ({ inventoryComponentItem }) => {
     const product = productsData.products[0];
-    const card = inventoryComponentItem.getProductCard(product.name);
+    const card = inventoryComponentItem.getProductCardLocator(product.name);
     await expect(card).toHaveCount(1);
 
-    const title = inventoryComponentItem.getTitleName(card);
-    const description = inventoryComponentItem.getDescription(card);
-    const price = inventoryComponentItem.getPrice(card);
-    const button = inventoryComponentItem.getButton(card);
+    const title = inventoryComponentItem.getTitleNameLocator(card);
+    const description = inventoryComponentItem.getDescriptionLocator(card);
+    const price = inventoryComponentItem.getPriceLocator(card);
+    const button = inventoryComponentItem.getButtonLocator(card);
 
     await expect(title).toBeVisible();
     await expect(description).toBeVisible();
@@ -48,8 +46,8 @@ test('Check product card structure and text content', async ({ inventoryComponen
 
 test('Check the button change to "REMOVE"', async ({ inventoryComponentItem }) => {
     const product = productsData.products[0];
-    const card = inventoryComponentItem.getProductCard(product.name);
-    const button = inventoryComponentItem.getButton(card);
+    const card = inventoryComponentItem.getProductCardLocator(product.name);
+    const button = inventoryComponentItem.getButtonLocator(card);
     await expect(button).toHaveText(/Add to cart/i);
     await button.click();
     await expect(button).toHaveText(/Remove/i);
@@ -58,8 +56,8 @@ test('Check if the user pressed the "ADD TO CART" button twice', async ({
     inventoryComponentItem,
 }) => {
     const product = productsData.products[0];
-    const card = inventoryComponentItem.getProductCard(product.name);
-    const button = inventoryComponentItem.getButton(card);
+    const card = inventoryComponentItem.getProductCardLocator(product.name);
+    const button = inventoryComponentItem.getButtonLocator(card);
     await expect(button).toHaveText(/Add to cart/i);
     await button.dblclick();
     await expect(button).toHaveText(/Add to cart/i);

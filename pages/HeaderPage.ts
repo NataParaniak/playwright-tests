@@ -27,10 +27,10 @@ export default class HeaderPage extends BasePage {
         await expect(this.cartImage, 'User is expected to see icon cart on the page').toBeVisible();
     }
 
-    async assertCartHasItemCount(count: number) {
-        await expect(
-            this.productQuantity,
-            'User is expected to see the number of items in the cart',
-        ).toHaveText(String(count), { timeout: 10000 });
+    async assertCartHasItemCount(expected: number): Promise<void> {
+        const text = (await this.productQuantity.textContent()) ?? '';
+        const actual = Number(text.match(/\d+/)?.[0]);
+
+        expect(actual, `Expected ${expected} items in cart, but got ${actual}`).toBe(expected);
     }
 }

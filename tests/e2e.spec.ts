@@ -6,6 +6,7 @@ test.describe('Sausdemo e2e', async () => {
         loginStandardUser,
         inventoryPage,
         cartPage,
+        inventoryComponentItem,
         checkoutPage,
         checkoutoverviewPage,
         successfullOrderPage,
@@ -21,6 +22,7 @@ test.describe('Sausdemo e2e', async () => {
             adress.standardUser.surname,
             adress.standardUser.postalcode,
         );
+        await inventoryComponentItem.getProductCardLocator('Sauce Labs Backpack');
         await checkoutoverviewPage.сlickFinishButton();
         await successfullOrderPage.verifySuccessfullMessageVisible();
     });

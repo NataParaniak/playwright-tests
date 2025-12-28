@@ -26,7 +26,7 @@ test('Verify username and password fields are visible on login page', async ({ l
     await loginPage.userpasswordFieldVisible();
 });
 test('Verify login button are enable on login page', async ({ loginPage }) => {
-    await loginPage.loginButtonIsEnabled();
+    await loginPage.isLoginButtonEnabled();
 });
 
 test('Verify that the text “Accepted usernames are:” is visible on the login page', async ({

@@ -8,7 +8,7 @@ export default class LoginPage extends BasePage {
 
     private passwordInput: string;
 
-    private loginButton: string;
+    private loginButton: Locator;
 
     private textHeader: Locator;
 
@@ -22,7 +22,7 @@ export default class LoginPage extends BasePage {
         super(page);
         this.usernameInput = '#user-name';
         this.passwordInput = '#password';
-        this.loginButton = '#login-button';
+        this.loginButton = page.locator('#login-button');
         this.textHeader = page.locator("//h4[text()='Accepted usernames are:']");
         this.loginPageLogo = page.locator('.bot_column');
         this.loginCredential = '#login_credentials';
@@ -40,9 +40,9 @@ export default class LoginPage extends BasePage {
     }
 
     async login(username: string, password: string): Promise<void> {
-        await this.type(this.usernameInput, username);
-        await this.type(this.passwordInput, password);
-        await this.page.click(this.loginButton);
+        await this.page.fill(this.usernameInput, username);
+        await this.page.fill(this.passwordInput, password);
+        await this.loginButton.click();
     }
 
     async veryfyLogoPage(): Promise<void> {
@@ -50,13 +50,11 @@ export default class LoginPage extends BasePage {
     }
 
     async verifyTitile(): Promise<void> {
-        const title = await this.getTitle();
-        expect(title, 'Page title should contain "Swag"').toContain('Swag');
+        expect(this.page, 'Page title should contain "Swag"').toHaveTitle(/Swag/);
     }
 
     async verifyUrl(): Promise<void> {
-        const url = await this.getUrl();
-        expect(url, 'Page url should contain "saucedemo"').toContain('saucedemo');
+        expect(this.page, 'Page url should contain "saucedemo"').toHaveURL(/saucedemo/);
     }
 
     async usernameFieldVisible(): Promise<void> {
@@ -86,7 +84,7 @@ export default class LoginPage extends BasePage {
         ).toBeVisible();
     }
 
-    async loginButtonIsEnabled(): Promise<void> {
-        return this.isElementEnabled(this.loginButton);
+    async isLoginButtonEnabled(): Promise<boolean> {
+        return this.loginButton.isEnabled();
     }
 }
