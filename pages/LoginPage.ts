@@ -29,11 +29,11 @@ export default class LoginPage extends BasePage {
         this.passwordCredential = '.login_password';
     }
 
-    async navigate() {
+    async navigate(): Promise<void> {
         await super.navigate(this.url);
     }
 
-    async assertOnLoginPage() {
+    async assertOnLoginPage(): Promise<void> {
         await expect(this.page, 'User is expected to be on the login page').toHaveURL(
             'https://www.saucedemo.com',
         );
@@ -58,19 +58,19 @@ export default class LoginPage extends BasePage {
     }
 
     async usernameFieldVisible(): Promise<void> {
-        return this.isElementVisible(this.usernameInput, 'The usernamefield must be visible.');
+        return this.assertElementVisible(this.usernameInput, 'The usernamefield must be visible.');
     }
 
     async userpasswordFieldVisible(): Promise<void> {
-        return this.isElementVisible(this.passwordInput, 'The paswordfield must be visible.');
+        return this.assertElementVisible(this.passwordInput, 'The paswordfield must be visible.');
     }
 
     async loginCredentialsVisible(): Promise<void> {
-        return this.isElementEnabled(this.loginCredential);
+        return this.assertElementEnabled(this.loginCredential);
     }
 
     async passwordCredentialsVisible(): Promise<void> {
-        return this.isElementEnabled(this.passwordCredential);
+        return this.assertElementEnabled(this.passwordCredential);
     }
 
     async verifyHeaderText(): Promise<void> {

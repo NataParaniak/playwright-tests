@@ -2,63 +2,57 @@ import { expect } from '@playwright/test';
 import { test } from '../fixtures/fixtures';
 import productsData from '../data/products.json';
 
-test.beforeEach(async ({ inventoryPage, loginStandardUser }) => {
+test.beforeEach(async ({ pages, loginStandardUser }) => {
+    const { inventoryPage } = pages;
     await loginStandardUser;
     await inventoryPage.assertOnInventoryPage();
 });
 
-test(`User can check that products are visible on the inventory page`, async ({
-    inventoryPage,
-    loginStandardUser,
-}) => {
+test(`Inventory page displays`, async ({ pages, loginStandardUser }) => {
+    const { inventoryPage } = pages;
     await loginStandardUser;
     await inventoryPage.assertProductsCount(6);
 });
 
-test('Product name are clickable', async ({ page, inventoryComponentItem }) => {
+test('Product name is clickable', async ({ page, pages }) => {
+    const { inventoryPage } = pages;
     const product = productsData.products[0];
-    const card = inventoryComponentItem.getProductCardLocator(product.name);
-    const title = inventoryComponentItem.getTitleNameLocator(card);
-    await title.click();
+    const item = inventoryPage.getProduct(product.name);
+
+    await item.getTitle().click();
     await expect(page).toHaveURL(/inventory-item\.html/);
 });
 
-test('Check product card structure and text content', async ({ inventoryComponentItem }) => {
+test('Check product card structure and text content', async ({ pages }) => {
+    const { inventoryPage } = pages;
     const product = productsData.products[0];
-    const card = inventoryComponentItem.getProductCardLocator(product.name);
-    await expect(card).toHaveCount(1);
+    const item = inventoryPage.getProduct(product.name);
 
-    const title = inventoryComponentItem.getTitleNameLocator(card);
-    const description = inventoryComponentItem.getDescriptionLocator(card);
-    const price = inventoryComponentItem.getPriceLocator(card);
-    const button = inventoryComponentItem.getButtonLocator(card);
+    await expect(item.getTitle()).toBeVisible();
+    await expect(item.getDescription()).toBeVisible();
+    await expect(item.getButton()).toBeVisible();
 
-    await expect(title).toBeVisible();
-    await expect(description).toBeVisible();
-    await expect(price).toBeVisible();
-    await expect(button).toBeVisible();
-
-    await expect(title).toHaveText(product.name);
-    await expect(description).toContainText(product.description);
-    await expect(price).toHaveText(product.price);
-    await expect(button).toHaveText(/Add to cart/i);
+    await expect(item.getTitle()).toHaveText(product.name);
+    await expect(item.getDescription()).toContainText(product.description);
+    await expect(item.getButton()).toHaveText(/Add to cart/i);
+    expect(await item.getPrice()).toBe(Number(product.price.replace('$', '')));
 });
 
-test('Check the button change to "REMOVE"', async ({ inventoryComponentItem }) => {
+test('Check the button change to "REMOVE"', async ({ pages }) => {
+    const { inventoryPage } = pages;
     const product = productsData.products[0];
-    const card = inventoryComponentItem.getProductCardLocator(product.name);
-    const button = inventoryComponentItem.getButtonLocator(card);
-    await expect(button).toHaveText(/Add to cart/i);
-    await button.click();
-    await expect(button).toHaveText(/Remove/i);
+    const item = inventoryPage.getProduct(product.name);
+
+    await expect(item.getButton()).toHaveText(/Add to cart/i);
+    await item.addToCart();
+    await expect(item.getButton()).toHaveText(/Remove/i);
 });
-test('Check if the user pressed the "ADD TO CART" button twice', async ({
-    inventoryComponentItem,
-}) => {
+test('Check if the user pressed the "ADD TO CART" button twice', async ({ pages }) => {
+    const { inventoryPage } = pages;
     const product = productsData.products[0];
-    const card = inventoryComponentItem.getProductCardLocator(product.name);
-    const button = inventoryComponentItem.getButtonLocator(card);
-    await expect(button).toHaveText(/Add to cart/i);
-    await button.dblclick();
-    await expect(button).toHaveText(/Add to cart/i);
+    const item = inventoryPage.getProduct(product.name);
+
+    await expect(item.getButton()).toHaveText(/Add to cart/i);
+    await item.getButton().dblclick();
+    await expect(item.getButton()).toHaveText(/Add to cart/i);
 });

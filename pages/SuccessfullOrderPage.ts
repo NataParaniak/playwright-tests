@@ -9,7 +9,7 @@ export default class SuccessfullOrderPage extends BasePage {
         this.successfullMessage = page.locator('h2');
     }
 
-    async verifySuccessfullMessageVisible() {
+    async verifySuccessfullMessageVisible(): Promise<void> {
         await expect(
             this.successfullMessage,
             'User should see notification about a successful order',

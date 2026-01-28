@@ -2,13 +2,13 @@ import { Page, Locator } from '@playwright/test';
 import BasePage from './BasePage';
 
 export default class CheckoutPage extends BasePage {
-    private firstNameInput: Locator;
+    readonly firstNameInput: Locator;
 
-    private lastNameInput: Locator;
+    readonly lastNameInput: Locator;
 
-    private postalCodeInput: Locator;
+    readonly postalCodeInput: Locator;
 
-    private continueButton: Locator;
+    readonly continueButton: Locator;
 
     constructor(page: Page) {
         super(page);
@@ -18,8 +18,8 @@ export default class CheckoutPage extends BasePage {
         this.continueButton = page.locator('.btn_primary.cart_button');
     }
 
-    async fillData(name: string, lastname: string, postalcode: string): Promise<void> {
-        await this.firstNameInput.fill(name);
+    async fillData(firstname: string, lastname: string, postalcode: string): Promise<void> {
+        await this.firstNameInput.fill(firstname);
         await this.lastNameInput.fill(lastname);
         await this.postalCodeInput.fill(postalcode);
         await this.continueButton.click();

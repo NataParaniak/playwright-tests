@@ -28,8 +28,9 @@ export default class HeaderPage extends BasePage {
     }
 
     async assertCartHasItemCount(expected: number): Promise<void> {
-        const text = (await this.productQuantity.textContent()) ?? '';
-        const actual = Number(text.match(/\d+/)?.[0]);
+        const countExists = await this.productQuantity.count(); // 0, якщо елементу нема
+        const text = countExists ? ((await this.productQuantity.textContent()) ?? '') : '0';
+        const actual = Number(text.match(/\d+/)?.[0] ?? 0);
 
         expect(actual, `Expected ${expected} items in cart, but got ${actual}`).toBe(expected);
     }
