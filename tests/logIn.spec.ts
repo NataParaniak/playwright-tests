@@ -1,57 +1,65 @@
 import { test } from '../fixtures/fixtures';
+import LoginPage from '../pages/LoginPage';
+import InventoryPage from '../pages/InventoryPage';
 import users from '../data/users.json';
+import SideBarPage from '../pages/SideBarPage';
 
-test.beforeEach(async ({ pages }) => {
-    const { loginPage } = pages;
+test.beforeEach(async ({ page }) => {
+    const loginPage = new LoginPage(page);
     await loginPage.navigate();
 });
 
-test('User can log in with valid credentials', async ({ loginStandardUser, pages }) => {
-    const { inventoryPage } = pages;
+test('User can log in with valid credentials', async ({ loginStandardUser, page }) => {
+    const inventoryPage = new InventoryPage(page);
     await loginStandardUser;
     await inventoryPage.assertOnInventoryPage();
 });
 
-test('Check if the user is blocked', async ({ pages }) => {
-    const { loginPage } = pages;
+test('Check if the user is blocked', async ({ page }) => {
+    const loginPage = new LoginPage(page);
     await loginPage.login(users.lockedUser.username, users.lockedUser.password);
-    await loginPage.verifyLockedUser();
+    await loginPage.assertVerifyLockedUser();
 });
 
-test('Verify Logo, Tittle, Url are visible on login page', async ({ pages }) => {
-    const { loginPage } = pages;
+test('Verify Logo, Tittle, Url are visible on login page', async ({ page }) => {
+    const loginPage = new LoginPage(page);
     await loginPage.veryfyLogoPage();
     await loginPage.verifyTitile();
     await loginPage.verifyUrl();
 });
 
-test('Verify username and password fields are visible on login page', async ({ pages }) => {
-    const { loginPage } = pages;
-    await loginPage.usernameFieldVisible();
-    await loginPage.userpasswordFieldVisible();
+test('Verify username and password fields are visible on login page', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.assertUsernameFieldVisible();
+    await loginPage.assertUserPasswordFieldVisible();
 });
-test('Verify login button are enable on login page', async ({ pages }) => {
-    const { loginPage } = pages;
+test('Verify login button are enable on login page', async ({ page }) => {
+    const loginPage = new LoginPage(page);
     await loginPage.isLoginButtonEnabled();
 });
 
 test('Verify that the text “Accepted usernames are:” is visible on the login page', async ({
-    pages,
+    page,
 }) => {
-    const { loginPage } = pages;
-    await loginPage.verifyHeaderText();
+    const loginPage = new LoginPage(page);
+    await loginPage.assertHeaderText('Accepted usernames are:');
+});
+test('Accepted usernames header should not be incorrect', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.assertAcceptedHeaderIsNot('ac');
 });
 
 test('Verify Login and password credentials are visible at the bottom of login page', async ({
-    pages,
+    page,
 }) => {
-    const { loginPage } = pages;
-    await loginPage.loginCredentialsVisible();
-    await loginPage.passwordCredentialsVisible();
+    const loginPage = new LoginPage(page);
+    await loginPage.assertLoginCredentialsVisible();
+    await loginPage.assertPasswordCredentialsVisible();
 });
 
-test('Logout from application', async ({ loginStandardUser, pages }) => {
-    const { loginPage, sideBarPage } = pages;
+test('Logout from application', async ({ loginStandardUser, page }) => {
+    const loginPage = new LoginPage(page);
+    const sideBarPage = new SideBarPage(page);
     await loginStandardUser;
     await sideBarPage.logOut();
     await loginPage.assertOnLoginPage();

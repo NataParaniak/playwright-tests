@@ -1,47 +1,41 @@
 import { Locator } from '@playwright/test';
+import { parsePrice } from '../utils/ParsePrice';
 
 export default class InventoryItemComponent {
-    readonly firstAddButton: Locator;
+    private readonly button: Locator;
 
-    readonly secondAddButton: Locator;
+    private readonly title: Locator;
 
-    constructor(private readonly container: Locator) {
-        this.firstAddButton = container
-            .locator('.inventory_item', { hasText: 'Sauce Labs Backpack' })
-            .locator('button[id^="add-to-cart"]');
+    private readonly description: Locator;
 
-        this.secondAddButton = container
-            .locator('.inventory_item', { hasText: 'Sauce Labs Bike Light' })
-            .locator('button[id^="add-to-cart"]');
+    private readonly price: Locator;
+
+    constructor(private readonly root: Locator) {
+        this.button = this.root.locator('button');
+        this.title = this.root.locator('.inventory_item_name');
+        this.description = this.root.locator('.inventory_item_desc');
+        this.price = this.root.locator('.inventory_item_price');
     }
 
     getTitle(): Locator {
-        return this.container.locator('.inventory_item_name');
+        return this.title;
     }
 
     getDescription(): Locator {
-        return this.container.locator('.inventory_item_desc');
-    }
-
-    async getPrice(): Promise<number> {
-        const text = await this.container.locator('.inventory_item_price').innerText();
-
-        return Number(text.replace('$', ''));
+        return this.description;
     }
 
     getButton(): Locator {
-        return this.container.locator('button');
+        return this.button;
     }
 
     async addToCart(): Promise<void> {
         await this.getButton().click();
     }
 
-    async clickFirstButton(): Promise<void> {
-        await this.firstAddButton.click();
-    }
+    async getPriceValue(): Promise<number> {
+        const text = await this.price.innerText();
 
-    async clickSecondButton(): Promise<void> {
-        await this.secondAddButton.click();
+        return parsePrice(text);
     }
 }

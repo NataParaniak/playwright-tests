@@ -1,34 +1,41 @@
 import { test, expect } from '../fixtures/fixtures';
-import { SortOptions } from '../utils/SortOptins';
+import InventoryPage from '../pages/InventoryPage';
+import { SortOptions } from '../utils/SortOptions';
+import { getAllProductPricesValue } from '../helpers/product.helper';
+import { sortNumbers } from '../utils/sort';
 
-test.beforeEach(async ({ pages, loginStandardUser }) => {
-    const { inventoryPage } = pages;
-    await loginStandardUser;
-    await inventoryPage.assertOnInventoryPage();
-});
+test.describe('Inventory sorting', () => {
+    test.beforeEach(async ({ page, loginStandardUser }) => {
+        const inventoryPage = new InventoryPage(page);
+        await loginStandardUser;
+        await inventoryPage.assertOnInventoryPage();
+    });
 
-test('The user has the ability to sort "low to high"', async ({ pages }) => {
-    const { inventoryPage } = pages;
-    await inventoryPage.selectSortOption(SortOptions.LowToHigh);
+    const sortCases = [
+        {
+            name: 'low to high',
+            option: SortOptions.LowToHigh,
+            direction: 'asc' as const,
+        },
+        {
+            name: 'high to low',
+            option: SortOptions.HighToLow,
+            direction: 'desc' as const,
+        },
+    ];
 
-    const products = await inventoryPage.getAllProducts();
+    sortCases.forEach(({ name, option, direction }) => {
+        test(`User can sort ${name}`, async ({ page }) => {
+            const inventoryPage = new InventoryPage(page);
 
-    const prices = await Promise.all(products.map(product => product.getPrice()));
+            await inventoryPage.selectSortOption(option);
 
-    const sorted = [...prices].sort((a, b) => a - b);
+            const products = await inventoryPage.getAllProducts();
+            const prices = await getAllProductPricesValue(products);
 
-    expect(prices, 'Products are sorted from low to high').toEqual(sorted);
-});
+            const sorted = sortNumbers(prices, direction);
 
-test('The user has the ability to sort "high to low"', async ({ pages }) => {
-    const { inventoryPage } = pages;
-    await inventoryPage.selectSortOption(SortOptions.HighToLow);
-
-    const products = await inventoryPage.getAllProducts();
-
-    const prices = await Promise.all(products.map(product => product.getPrice()));
-
-    const sorted = [...prices].sort((a, b) => b - a);
-
-    expect(prices, 'Products are sorted from high to low').toEqual(sorted);
+            expect(prices, `Products should be sorted ${name}`).toEqual(sorted);
+        });
+    });
 });

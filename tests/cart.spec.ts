@@ -1,25 +1,25 @@
 import { expect, test } from '../fixtures/fixtures';
-import InventoryItemComponent from '../components/InventoryComponentItem';
+import InventoryPage from '../pages/InventoryPage';
+import HeaderPage from '../pages/HeaderPage';
 
-test.beforeEach(async ({ pages, loginStandardUser }) => {
-    const { inventoryPage } = pages;
+test.beforeEach(async ({ page, loginStandardUser }) => {
+    const inventoryPage = new InventoryPage(page);
     await loginStandardUser;
     await inventoryPage.assertOnInventoryPage();
 });
 
-test('User can add multiple items to cart and cart counter updates correctly', async ({
-    pages,
-}) => {
-    const { headerPage } = pages;
+test('User can add multiple items to cart and cart counter updates correctly', async ({ page }) => {
+    const headerPage = new HeaderPage(page);
+    const inventoryPage = new InventoryPage(page);
 
-    const container = pages.inventoryPage.inventoryList;
-    const product = new InventoryItemComponent(container);
+    const backpack = inventoryPage.getProduct('Sauce Labs Backpack');
+    const bikeLight = inventoryPage.getProduct('Sauce Labs Bike Light');
+    await backpack.addToCart();
 
-    await product.clickFirstButton();
     await headerPage.assertCartIconVisible();
     await headerPage.assertCartHasItemCount(1);
     await expect(headerPage.cartImage).toBeVisible();
 
-    await product.clickSecondButton();
+    await bikeLight.addToCart();
     await headerPage.assertCartHasItemCount(2);
 });

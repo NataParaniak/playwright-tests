@@ -4,9 +4,9 @@ import BasePage from './BasePage';
 export default class LoginPage extends BasePage {
     private url = '/';
 
-    private usernameInput: string;
+    readonly usernameField: string;
 
-    private passwordInput: string;
+    readonly passwordField: string;
 
     private loginButton: Locator;
 
@@ -20,10 +20,10 @@ export default class LoginPage extends BasePage {
 
     constructor(page: Page) {
         super(page);
-        this.usernameInput = '#user-name';
-        this.passwordInput = '#password';
+        this.usernameField = '#user-name';
+        this.passwordField = '#password';
         this.loginButton = page.locator('#login-button');
-        this.textHeader = page.locator("//h4[text()='Accepted usernames are:']");
+        this.textHeader = this.page.getByText('Accepted usernames are:');
         this.loginPageLogo = page.locator('.bot_column');
         this.loginCredential = '#login_credentials';
         this.passwordCredential = '.login_password';
@@ -40,8 +40,8 @@ export default class LoginPage extends BasePage {
     }
 
     async login(username: string, password: string): Promise<void> {
-        await this.page.fill(this.usernameInput, username);
-        await this.page.fill(this.passwordInput, password);
+        await this.page.fill(this.usernameField, username);
+        await this.page.fill(this.passwordField, password);
         await this.loginButton.click();
     }
 
@@ -57,27 +57,33 @@ export default class LoginPage extends BasePage {
         expect(this.page, 'Page url should contain "saucedemo"').toHaveURL(/saucedemo/);
     }
 
-    async usernameFieldVisible(): Promise<void> {
-        return this.assertElementVisible(this.usernameInput, 'The usernamefield must be visible.');
+    async assertUsernameFieldVisible(): Promise<void> {
+        return this.assertElementVisible(this.usernameField, 'The usernamefield must be visible.');
     }
 
-    async userpasswordFieldVisible(): Promise<void> {
-        return this.assertElementVisible(this.passwordInput, 'The paswordfield must be visible.');
+    async assertUserPasswordFieldVisible(): Promise<void> {
+        return this.assertElementVisible(this.passwordField, 'The paswordfield must be visible.');
     }
 
-    async loginCredentialsVisible(): Promise<void> {
+    async assertLoginCredentialsVisible(): Promise<void> {
         return this.assertElementEnabled(this.loginCredential);
     }
 
-    async passwordCredentialsVisible(): Promise<void> {
+    async assertPasswordCredentialsVisible(): Promise<void> {
         return this.assertElementEnabled(this.passwordCredential);
     }
 
-    async verifyHeaderText(): Promise<void> {
-        await expect(this.textHeader, 'User is expected to see text on the page').toBeVisible();
+    async assertHeaderText(expectedText: string): Promise<void> {
+        await expect(this.textHeader, 'User is expected to see text on the page').toHaveText(
+            expectedText,
+        );
     }
 
-    async verifyLockedUser(): Promise<void> {
+    async assertAcceptedHeaderIsNot(wrongText: string): Promise<void> {
+        await expect(this.textHeader).not.toHaveText(wrongText);
+    }
+
+    async assertVerifyLockedUser(): Promise<void> {
         await expect(
             this.page.getByText('Epic sadface:'),
             'User is expected to stay on the same page and see text',
