@@ -1,32 +1,66 @@
-import { test, expect } from '@playwright/test';
+import { test } from '../fixtures/fixtures';
 import LoginPage from '../pages/LoginPage';
 import InventoryPage from '../pages/InventoryPage';
 import users from '../data/users.json';
-
-let loginPage: LoginPage;
-let inventoryPage: InventoryPage;
+import SideBarPage from '../pages/SideBarPage';
 
 test.beforeEach(async ({ page }) => {
-    inventoryPage = new InventoryPage(page);
-    loginPage = new LoginPage(page);
+    const loginPage = new LoginPage(page);
     await loginPage.navigate();
 });
 
-test('User can log in with valid credentials', async () => {
-    await loginPage.login(users.standard_user.username, users.standard_user.password);
-    await inventoryPage.assertOnPage();
+test('User can log in with valid credentials', async ({ loginStandardUser, page }) => {
+    const inventoryPage = new InventoryPage(page);
+    await loginStandardUser;
+    await inventoryPage.assertOnInventoryPage();
 });
 
 test('Check if the user is blocked', async ({ page }) => {
-    await loginPage.login(users.locked_user.username, users.locked_user.password);
-    await expect(page.getByText('Epic sadface:')).toBeVisible();
+    const loginPage = new LoginPage(page);
+    await loginPage.login(users.lockedUser.username, users.lockedUser.password);
+    await loginPage.assertVerifyLockedUser();
 });
 
-test('Check text visibility on login page', async () => {
-    await loginPage.verifyHeaderText();
+test('Verify Logo, Tittle, Url are visible on login page', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.veryfyLogoPage();
+    await loginPage.verifyTitile();
+    await loginPage.verifyUrl();
 });
 
-test('Logout from application', async () => {
-    await loginPage.login(users.standard_user.username, users.standard_user.password);
-    await inventoryPage.logOutToApplication();
+test('Verify username and password fields are visible on login page', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.assertUsernameFieldVisible();
+    await loginPage.assertUserPasswordFieldVisible();
+});
+test('Verify login button are enable on login page', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.isLoginButtonEnabled();
+});
+
+test('Verify that the text “Accepted usernames are:” is visible on the login page', async ({
+    page,
+}) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.assertHeaderText('Accepted usernames are:');
+});
+test('Accepted usernames header should not be incorrect', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.assertAcceptedHeaderIsNot('ac');
+});
+
+test('Verify Login and password credentials are visible at the bottom of login page', async ({
+    page,
+}) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.assertLoginCredentialsVisible();
+    await loginPage.assertPasswordCredentialsVisible();
+});
+
+test('Logout from application', async ({ loginStandardUser, page }) => {
+    const loginPage = new LoginPage(page);
+    const sideBarPage = new SideBarPage(page);
+    await loginStandardUser;
+    await sideBarPage.logOut();
+    await loginPage.assertOnLoginPage();
 });

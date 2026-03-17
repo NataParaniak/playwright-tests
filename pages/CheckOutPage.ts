@@ -2,13 +2,13 @@ import { Page, Locator } from '@playwright/test';
 import BasePage from './BasePage';
 
 export default class CheckoutPage extends BasePage {
-    private firstNameInput: Locator;
+    readonly firstNameInput: Locator;
 
-    private lastNameInput: Locator;
+    readonly lastNameInput: Locator;
 
-    private postalCodeInput: Locator;
+    readonly postalCodeInput: Locator;
 
-    private continueButton: Locator;
+    readonly continueButton: Locator;
 
     constructor(page: Page) {
         super(page);

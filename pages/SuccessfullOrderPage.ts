@@ -1,7 +1,7 @@
 import { Page, Locator, expect } from '@playwright/test';
 import BasePage from './BasePage';
 
-export default class SuccessfullorderPage extends BasePage {
+export default class SuccessfullOrderPage extends BasePage {
     public successfullMessage: Locator;
 
     constructor(page: Page) {
@@ -9,10 +9,10 @@ export default class SuccessfullorderPage extends BasePage {
         this.successfullMessage = page.locator('h2');
     }
 
-    async successfullMessageVisible() {
+    async verifySuccessfullMessageVisible(): Promise<void> {
         await expect(
             this.successfullMessage,
-            'User was waiting for a notification about a successful order.',
+            'User should see notification about a successful order',
         ).toContainText('Thank you for your order!');
     }
 }

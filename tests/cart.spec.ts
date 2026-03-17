@@ -1,19 +1,26 @@
-import { test } from '@playwright/test';
-import LoginPage from '../pages/LoginPage';
+import { expect, test } from '../fixtures/fixtures';
 import InventoryPage from '../pages/InventoryPage';
-import users from '../data/users.json';
+import HeaderPage from '../pages/HeaderPage';
+import { Products } from '../constans/products';
 
-let loginPage: LoginPage;
-let inventoryPage: InventoryPage;
-
-test.beforeEach(async ({ page }) => {
-    loginPage = new LoginPage(page);
-    inventoryPage = new InventoryPage(page);
-    await loginPage.navigate();
-    await loginPage.login(users.standard_user.username, users.standard_user.password);
-    await inventoryPage.assertOnPage();
+test.beforeEach(async ({ page, loginStandardUser }) => {
+    const inventoryPage = new InventoryPage(page);
+    await loginStandardUser;
+    await inventoryPage.assertOnInventoryPage();
 });
 
-test('User can check for cart image ', async () => {
-    await inventoryPage.clickAddButtonFirst();
+test('User can add multiple items to cart and cart counter updates correctly', async ({ page }) => {
+    const headerPage = new HeaderPage(page);
+    const inventoryPage = new InventoryPage(page);
+
+    const backpack = inventoryPage.getProduct(Products.Backpack);
+    const bikeLight = inventoryPage.getProduct(Products.BikeLight);
+    await backpack.addToCart();
+
+    await headerPage.assertCartIconVisible();
+    await headerPage.assertCartHasItemCount(1);
+    await expect(headerPage.cartImage).toBeVisible();
+
+    await bikeLight.addToCart();
+    await headerPage.assertCartHasItemCount(2);
 });

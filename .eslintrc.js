@@ -26,9 +26,14 @@ module.exports = {
                 js: 'never',
             },
         ],
-        'import/no-extraneous-dependencies': 'off', // можна також через overrides
+        'import/no-extraneous-dependencies': 'off',
         'no-return-await': 'warn',
         'no-console': 'off',
+        'import/prefer-default-export': 'off',
+        'no-await-in-loop': 'warn',
+        'no-plusplus': 'off',
+        'class-methods-use-this': 'off',
+        '@typescript-eslint/explicit-function-return-type': ['error'],
     },
     overrides: [
         {

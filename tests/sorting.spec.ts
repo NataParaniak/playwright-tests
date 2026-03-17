@@ -1,20 +1,41 @@
-import { test } from '@playwright/test';
-import LoginPage from '../pages/LoginPage';
+import { test, expect } from '../fixtures/fixtures';
 import InventoryPage from '../pages/InventoryPage';
-import users from '../data/users.json';
+import { SortOptions } from '../utils/SortOptions';
+import { getAllProductPricesValue } from '../helpers/product.helper';
+import { sortNumbers } from '../utils/sort';
 
-let loginPage: LoginPage;
-let inventoryPage: InventoryPage;
+test.describe('Inventory sorting', () => {
+    test.beforeEach(async ({ page, loginStandardUser }) => {
+        const inventoryPage = new InventoryPage(page);
+        await loginStandardUser;
+        await inventoryPage.assertOnInventoryPage();
+    });
 
-test.beforeEach(async ({ page }) => {
-    loginPage = new LoginPage(page);
-    inventoryPage = new InventoryPage(page);
-    await loginPage.navigate();
-    await loginPage.login(users.standard_user.username, users.standard_user.password);
-    await inventoryPage.assertOnPage();
-});
+    const sortCases = [
+        {
+            name: 'low to high',
+            option: SortOptions.LowToHigh,
+            direction: 'asc' as const,
+        },
+        {
+            name: 'high to low',
+            option: SortOptions.HighToLow,
+            direction: 'desc' as const,
+        },
+    ];
 
-test('The user has the ability to sort ', async () => {
-    await inventoryPage.selectSorting();
-    await inventoryPage.verifyPrice();
+    sortCases.forEach(({ name, option, direction }) => {
+        test(`User can sort ${name}`, async ({ page }) => {
+            const inventoryPage = new InventoryPage(page);
+
+            await inventoryPage.selectSortOption(option);
+
+            const products = await inventoryPage.getAllProducts();
+            const prices = await getAllProductPricesValue(products);
+
+            const sorted = sortNumbers(prices, direction);
+
+            expect(prices, `Products should be sorted ${name}`).toEqual(sorted);
+        });
+    });
 });
