@@ -4,9 +4,9 @@ import BasePage from './BasePage';
 export default class LoginPage extends BasePage {
     private url = '/';
 
-    readonly usernameField: string;
+    readonly usernameInput: string;
 
-    readonly passwordField: string;
+    readonly passwordInput: string;
 
     private loginButton: Locator;
 
@@ -20,8 +20,8 @@ export default class LoginPage extends BasePage {
 
     constructor(page: Page) {
         super(page);
-        this.usernameField = '#user-name';
-        this.passwordField = '#password';
+        this.usernameInput = '#user-name';
+        this.passwordInput = '#password';
         this.loginButton = page.locator('#login-button');
         this.textHeader = this.page.getByText('Accepted usernames are:');
         this.loginPageLogo = page.locator('.bot_column');
@@ -40,8 +40,8 @@ export default class LoginPage extends BasePage {
     }
 
     async login(username: string, password: string): Promise<void> {
-        await this.page.fill(this.usernameField, username);
-        await this.page.fill(this.passwordField, password);
+        await this.page.fill(this.usernameInput, username);
+        await this.page.fill(this.passwordInput, password);
         await this.loginButton.click();
     }
 
@@ -58,11 +58,11 @@ export default class LoginPage extends BasePage {
     }
 
     async assertUsernameFieldVisible(): Promise<void> {
-        return this.assertElementVisible(this.usernameField, 'The usernamefield must be visible.');
+        return this.assertElementVisible(this.usernameInput, 'The usernamefield must be visible.');
     }
 
     async assertUserPasswordFieldVisible(): Promise<void> {
-        return this.assertElementVisible(this.passwordField, 'The paswordfield must be visible.');
+        return this.assertElementVisible(this.passwordInput, 'The paswordfield must be visible.');
     }
 
     async assertLoginCredentialsVisible(): Promise<void> {

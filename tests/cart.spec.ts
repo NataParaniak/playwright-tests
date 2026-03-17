@@ -1,6 +1,7 @@
 import { expect, test } from '../fixtures/fixtures';
 import InventoryPage from '../pages/InventoryPage';
 import HeaderPage from '../pages/HeaderPage';
+import { Products } from '../constans/products';
 
 test.beforeEach(async ({ page, loginStandardUser }) => {
     const inventoryPage = new InventoryPage(page);
@@ -12,8 +13,8 @@ test('User can add multiple items to cart and cart counter updates correctly', a
     const headerPage = new HeaderPage(page);
     const inventoryPage = new InventoryPage(page);
 
-    const backpack = inventoryPage.getProduct('Sauce Labs Backpack');
-    const bikeLight = inventoryPage.getProduct('Sauce Labs Bike Light');
+    const backpack = inventoryPage.getProduct(Products.Backpack);
+    const bikeLight = inventoryPage.getProduct(Products.BikeLight);
     await backpack.addToCart();
 
     await headerPage.assertCartIconVisible();

@@ -13,19 +13,13 @@ export async function completePurchase(
         postalCode: string;
     },
 ): Promise<void> {
-    const inventoryPage = new InventoryPage(page);
-    const headerPage = new HeaderPage(page);
-    const cartPage = new CartPage(page);
-    const checkoutPage = new CheckoutPage(page);
-    const checkoutoverviewPage = new CheckoutoverviewPage(page);
-
-    const product = inventoryPage.getProduct('Sauce Labs Backpack');
+    const product = new InventoryPage(page).getProduct('Sauce Labs Backpack');
     await product.addToCart();
 
-    await headerPage.goToCart();
-    await cartPage.clickCheckout();
+    await new HeaderPage(page).goToCart();
+    await new CartPage(page).clickCheckout();
 
-    await checkoutPage.fillData(address.firstName, address.lastName, address.postalCode);
+    await new CheckoutPage(page).fillData(address.firstName, address.lastName, address.postalCode);
 
-    await checkoutoverviewPage.clickFinishButton();
+    await new CheckoutoverviewPage(page).clickFinishButton();
 }

@@ -1,10 +1,5 @@
 import productsData from '../data/products.json';
-
-type Product = {
-    name: string;
-    description: string;
-    price: string;
-};
+import { Product } from '../types/product';
 
 export function getProductByName(name: string): Product {
     const product = productsData.products.find(p => p.name === name);

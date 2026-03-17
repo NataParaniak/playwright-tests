@@ -6,13 +6,11 @@ import InventoryItemComponent from '../components/InventoryComponentItem';
 export default class InventoryPage extends BasePage {
     private readonly url = '/inventory.html';
 
-    readonly inventoryItem = this.page.locator('.inventory_item');
+    readonly inventoryItems = this.page.locator('.inventory_item');
 
     readonly inventoryList = this.page.locator('.inventory_list');
 
     readonly productSortContainer = this.page.locator('.product_sort_container');
-
-    readonly invrntoryItemPrice = this.page.locator('.inventory_item_price');
 
     async navigate(): Promise<void> {
         await super.navigate(this.url);
@@ -26,19 +24,19 @@ export default class InventoryPage extends BasePage {
     }
 
     getProduct(name: string): InventoryItemComponent {
-        const card = this.inventoryItem.filter({ hasText: name });
+        const card = this.inventoryItems.filter({ hasText: name });
 
         return new InventoryItemComponent(card);
     }
 
     async getAllProducts(): Promise<InventoryItemComponent[]> {
-        const cards = await this.inventoryItem.all();
+        const cards = await this.inventoryItems.all();
 
         return cards.map(card => new InventoryItemComponent(card));
     }
 
     async getProductsCount(): Promise<number> {
-        return this.inventoryItem.count();
+        return this.inventoryItems.count();
     }
 
     async assertProductsCount(expected: number): Promise<void> {
