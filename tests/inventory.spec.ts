@@ -3,19 +3,19 @@ import { test } from '../fixtures/fixtures';
 import InventoryPage from '../pages/InventoryPage';
 import productsData from '../data/products.json';
 import { parsePrice } from '../utils/ParsePrice';
-import { getProductByName } from '../utils/GetProductByName';
+import { ProductProvider } from '../utils/GetProductByName';
 import { Products } from '../constans/products';
 import { PRODUCTS_COUNT } from '../constans/productsCount';
 
-test.beforeEach(async ({ page, loginStandardUser }) => {
+test.beforeEach(async ({ page, loginUser }) => {
     const inventoryPage = new InventoryPage(page);
-    await loginStandardUser;
+    await loginUser;
     await inventoryPage.assertOnInventoryPage();
 });
 
-test('Inventory page displays valid products count', async ({ page, loginStandardUser }) => {
+test('Inventory page displays valid products count', async ({ page, loginUser }) => {
     const inventoryPage = new InventoryPage(page);
-    await loginStandardUser;
+    await loginUser;
 
     await inventoryPage.assertProductsCount(PRODUCTS_COUNT);
 });
@@ -29,8 +29,9 @@ test('Product name is clickable', async ({ page }) => {
 });
 
 test('Check product card structure and text content', async ({ page }) => {
+    const productProvider = new ProductProvider();
     const inventoryPage = new InventoryPage(page);
-    const product = getProductByName(Products.Backpack);
+    const product = productProvider.getProductByName(Products.Backpack);
     const item = inventoryPage.getProduct(Products.Backpack);
 
     await expect(item.getTitle(), 'Product title should be visible').toBeVisible();

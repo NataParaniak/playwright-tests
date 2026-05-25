@@ -4,9 +4,9 @@ import BasePage from './BasePage';
 export default class LoginPage extends BasePage {
     private url = '/';
 
-    readonly usernameInput: string;
+    readonly usernameInput: Locator;
 
-    readonly passwordInput: string;
+    readonly passwordInput: Locator;
 
     private loginButton: Locator;
 
@@ -14,19 +14,19 @@ export default class LoginPage extends BasePage {
 
     private loginPageLogo: Locator;
 
-    private loginCredential: string;
+    private loginCredential: Locator;
 
-    private passwordCredential: string;
+    private passwordCredential: Locator;
 
     constructor(page: Page) {
         super(page);
-        this.usernameInput = '#user-name';
-        this.passwordInput = '#password';
+        this.usernameInput = page.locator('#user-name');
+        this.passwordInput = page.locator('#password');
         this.loginButton = page.locator('#login-button');
         this.textHeader = this.page.getByText('Accepted usernames are:');
         this.loginPageLogo = page.locator('.bot_column');
-        this.loginCredential = '#login_credentials';
-        this.passwordCredential = '.login_password';
+        this.loginCredential = page.locator('#login_credentials');
+        this.passwordCredential = page.locator('.login_password');
     }
 
     async navigate(): Promise<void> {
@@ -40,8 +40,8 @@ export default class LoginPage extends BasePage {
     }
 
     async login(username: string, password: string): Promise<void> {
-        await this.page.fill(this.usernameInput, username);
-        await this.page.fill(this.passwordInput, password);
+        await this.usernameInput.fill(username);
+        await this.passwordInput.fill(password);
         await this.loginButton.click();
     }
 
@@ -58,19 +58,23 @@ export default class LoginPage extends BasePage {
     }
 
     async assertUsernameFieldVisible(): Promise<void> {
-        return this.assertElementVisible(this.usernameInput, 'The usernamefield must be visible.');
+        await expect(this.usernameInput, 'Field username is visible').toBeVisible();
+    }
+
+    async assertPasswordFieldVisible(): Promise<void> {
+        await expect(this.passwordInput, 'Field password is visible').toBeVisible();
     }
 
     async assertUserPasswordFieldVisible(): Promise<void> {
-        return this.assertElementVisible(this.passwordInput, 'The paswordfield must be visible.');
+        await expect(this.passwordInput).toBeVisible();
     }
 
     async assertLoginCredentialsVisible(): Promise<void> {
-        return this.assertElementEnabled(this.loginCredential);
+        await expect(this.loginCredential).toBeEnabled();
     }
 
     async assertPasswordCredentialsVisible(): Promise<void> {
-        return this.assertElementEnabled(this.passwordCredential);
+        await expect(this.passwordCredential).toBeEnabled();
     }
 
     async assertHeaderText(expectedText: string): Promise<void> {

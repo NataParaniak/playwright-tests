@@ -2,8 +2,8 @@ import { test } from '../fixtures/fixtures';
 import { completePurchase } from '../helpers/purcaseHelper';
 import SuccessfullOrderPage from '../pages/SuccessfullOrderPage';
 
-test('Successful purchase', async ({ page, loginStandardUser }) => {
-    await loginStandardUser;
+test('Successful purchase', async ({ page, loginUser }) => {
+    await loginUser;
 
     const successfullOrderPage = new SuccessfullOrderPage(page);
     await completePurchase(page, {

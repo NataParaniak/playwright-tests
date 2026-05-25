@@ -9,16 +9,9 @@ test.beforeEach(async ({ page }) => {
     await loginPage.navigate();
 });
 
-test('User can log in with valid credentials', async ({ loginStandardUser, page }) => {
-    const inventoryPage = new InventoryPage(page);
-    await loginStandardUser;
+test('User can log in with valid credentials', async ({ loginUser }) => {
+    const inventoryPage = new InventoryPage(loginUser);
     await inventoryPage.assertOnInventoryPage();
-});
-
-test('Check if the user is blocked', async ({ page }) => {
-    const loginPage = new LoginPage(page);
-    await loginPage.login(users.lockedUser.username, users.lockedUser.password);
-    await loginPage.assertVerifyLockedUser();
 });
 
 test('Verify Logo, Tittle, Url are visible on login page', async ({ page }) => {
@@ -57,10 +50,18 @@ test('Verify Login and password credentials are visible at the bottom of login p
     await loginPage.assertPasswordCredentialsVisible();
 });
 
-test('Logout from application', async ({ loginStandardUser, page }) => {
-    const loginPage = new LoginPage(page);
-    const sideBarPage = new SideBarPage(page);
-    await loginStandardUser;
+test('Logout from application', async ({ loginUser }) => {
+    const loginPage = new LoginPage(loginUser);
+    const sideBarPage = new SideBarPage(loginUser);
+
     await sideBarPage.logOut();
     await loginPage.assertOnLoginPage();
+});
+test.describe('Locked user', () => {
+    test.use({ user: users.lockedUser });
+
+    test('Check if the user is blocked', async ({ loginUser }) => {
+        const loginPage = new LoginPage(loginUser);
+        await loginPage.assertVerifyLockedUser();
+    });
 });

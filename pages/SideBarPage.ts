@@ -1,19 +1,19 @@
-import { Page } from '@playwright/test';
+import { Page, Locator } from '@playwright/test';
 import BasePage from './BasePage';
 
 export default class SideBarPage extends BasePage {
-    private pagebutton: string;
+    private pagebutton: Locator;
 
-    private logOutButton: string;
+    private logOutButton: Locator;
 
     constructor(page: Page) {
         super(page);
-        this.pagebutton = '#react-burger-menu-btn';
-        this.logOutButton = "//*[@id='logout_sidebar_link']";
+        this.pagebutton = page.locator('#react-burger-menu-btn');
+        this.logOutButton = page.locator("//*[@id='logout_sidebar_link']");
     }
 
     async logOut(): Promise<void> {
-        await this.page.click(this.pagebutton);
-        await this.page.click(this.logOutButton);
+        await this.pagebutton.click();
+        await this.logOutButton.click();
     }
 }

@@ -5,9 +5,9 @@ import { getAllProductPricesValue } from '../helpers/product.helper';
 import { sortNumbers } from '../utils/sort';
 
 test.describe('Inventory sorting', () => {
-    test.beforeEach(async ({ page, loginStandardUser }) => {
+    test.beforeEach(async ({ page, loginUser }) => {
         const inventoryPage = new InventoryPage(page);
-        await loginStandardUser;
+        await loginUser;
         await inventoryPage.assertOnInventoryPage();
     });
 
